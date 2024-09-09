@@ -7,13 +7,13 @@ int main(int argc, char** argv) {
 
 	Arena arena;
 	clock_t start = clock();
-	std::cout << arena.alloc<U64>(256) << std::endl;
+	U64* firstAlloc = arena.alloc<U64>(256);
 	clock_t end = clock();
 
 	U64 firstTime = end - start;
 
 	start = clock();
-	std::cout << arena.alloc<U64>(256) << std::endl;
+	U64* secondAlloc = arena.alloc<U64>(256);
 	end = clock();
 
 	U64 secondTime = end - start;
@@ -23,6 +23,9 @@ int main(int argc, char** argv) {
 	end = clock();
 
 	U64 thirdTime = end - start;
+
+	firstAlloc[atoi(argv[1])] = 3103;
+	secondAlloc[atoi(argv[1])] = 3103;
 
 	std::cout << firstTime << "\n" << secondTime << "\n" << thirdTime << "\n";
 
