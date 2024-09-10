@@ -10,6 +10,8 @@
 #elif defined(_WIN32)
 #include <memoryapi.h>
 #include <sysinfoapi.h>
+#else
+#error This library is not compatible with this system
 #endif
 #include <iostream>
 
@@ -46,7 +48,8 @@ public:
 	}
 
 	template <typename T>
-	T* alloc(Size count, T* data = nullptr) {
+	T* reserve(Size count, const Size alignment = alignof(T)) {
+		current += (Size)current % alignment;
 		T* result = (T*)current;
 		Size size = count * sizeof(T);
 		current += size;
@@ -61,9 +64,27 @@ public:
 			last = newLast;
 		}
 
-		if (data) {
-			memcpy(result, data, size);
+		return result;
+	}
+
+	template <typename T>
+	T* append(Size count, T* data, const Size alignment = alignof(T)) {
+		current += (Size)current % alignment;
+		T* result = (T*)current;
+		Size size = count * sizeof(T);
+		current += size;
+
+		if (current > last) {
+			U8* newLast = current + pageSize - ((Size)current & (pageSize - 1));
+#ifdef __unix__
+			mprotect(last, newLast - last, PROT_READ | PROT_WRITE);
+#elif defined(_WIN32)
+			VirtualAlloc(last, newLast - last, MEM_COMMIT, PAGE_READWRITE);
+#endif
+			last = newLast;
 		}
+
+		memcpy(result, data, size);
 
 		return result;
 	}
