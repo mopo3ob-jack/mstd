@@ -1,7 +1,7 @@
 #ifndef MSTD_VECTOR4_HPP
 #define MSTD_VECTOR4_HPP
 
-#include "primitive.h"
+#include "../primitive.h"
 #include <string>
 #include <cmath>
 
@@ -78,7 +78,7 @@ public:
 		return *this *= invLength;
 	}
 
-	constexpr operator std::string() {
+	constexpr operator std::string() const {
 		std::string result;
 		result.reserve(48);
 

@@ -1,10 +1,12 @@
 #ifndef MSTD_PRIMITIVE_H
 #define MSTD_PRIMITIVE_H
 
-#include <stdint.h>
-#include <stddef.h>
 
 #ifdef __cplusplus
+
+#include <cstdint>
+#include <cstddef>
+
 namespace mstd {
 
 // Character types
@@ -14,9 +16,13 @@ typedef char32_t    C32;
 
 #else
 
+#include <stdint.h>
+#include <stddef.h>
+
 // Character types
 typedef char        C8;
 typedef wchar_t     C16;
+typedef uint32_t    C32;
 
 #endif
 

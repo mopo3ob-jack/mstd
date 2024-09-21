@@ -1,7 +1,7 @@
 #ifndef MSTD_ARENA_HPP
 #define MSTD_ARENA_HPP
 
-#include "memory.hpp"
+#include "allocator.hpp"
 #include <cstring>
 
 #ifdef __unix__
@@ -19,9 +19,7 @@ namespace mstd {
 
 class Arena {
 public:
-	Arena(Size maxSize = (1ull << (sizeof(Size) * 4)))
-		: maxSize(maxSize) {
-
+	Arena(Size maxSize = (1ull << (sizeof(U8*) * 8 - 4))) : maxSize(maxSize) {
 #ifdef __unix__
 		first = (U8*)mmap(nullptr, maxSize, PROT_NONE, MAP_ANONYMOUS | MAP_PRIVATE, -1, 0);
 		pageSize = sysconf(_SC_PAGESIZE);
@@ -89,7 +87,7 @@ public:
 		return result;
 	}
 
-private:
+protected:
 	U8*           first;
 	U8*           last;
 	U8*           current;

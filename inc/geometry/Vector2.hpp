@@ -1,7 +1,7 @@
 #ifndef MSTD_VECTOR2_HPP
 #define MSTD_VECTOR2_HPP
 
-#include "primitive.h"
+#include "../primitive.h"
 #include <string>
 #include <cmath>
 
@@ -36,6 +36,10 @@ public:
 
 	constexpr Vector2 operator+(const Vector2& v) const {
 		return Vector2(x + v.x, y + v.y);
+	}
+
+	constexpr Vector2 operator-() const {
+		return Vector2(-x, -y);
 	}
 
 	constexpr Vector2 operator-(const Vector2& v) const {
@@ -90,7 +94,7 @@ public:
 		return *this *= invLength;
 	}
 
-	constexpr operator std::string() {
+	constexpr operator std::string() const {
 		std::string result;
 		result.reserve(32);
 

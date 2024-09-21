@@ -1,0 +1,7 @@
+#ifndef MSTD_MEMORY
+#define MSTD_MEMORY
+
+#include "inc/memory/allocator.hpp"
+#include "inc/memory/Arena.hpp"
+
+#endif

@@ -1,7 +1,7 @@
 #ifndef MSTD_VECTOR3_HPP
 #define MSTD_VECTOR3_HPP
 
-#include "primitive.h"
+#include "../primitive.h"
 #include <string>
 #include <cmath>
 
@@ -40,6 +40,10 @@ public:
 
 	constexpr Vector3 operator+(const Vector3& v) const {
 		return Vector3(x + v.x, y + v.y, z + v.z);
+	}
+
+	constexpr Vector3 operator-() const {
+		return Vector3(-x, -y, -z);
 	}
 
 	constexpr Vector3 operator-(const Vector3& v) const {
@@ -98,7 +102,7 @@ public:
 		return *this *= invLength;
 	}
 
-	constexpr operator std::string() {
+	constexpr operator std::string() const {
 		std::string result;
 		result.reserve(48);
 
