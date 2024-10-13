@@ -3,15 +3,24 @@
 
 #include "Vector3.hpp"
 #include "Vector4.hpp"
+#include "Matrix3.hpp"
+#include "Matrix4.hpp"
 
 namespace mstd {
 
 template <typename T>
 class Rotor {
 public:
+	constexpr Rotor() {
+		this->w = 1.0;
+		this->yz = 0.0;
+		this->zx = 0.0;
+		this->xy = 0.0;
+	}
+
 	constexpr Rotor(T w, T yz, T zx, T xy) {
 		this->w = w;
-		this->yz = yz ;
+		this->yz = yz;
 		this->zx = zx;
 		this->xy = xy;
 	}
@@ -41,6 +50,15 @@ public:
 			w * r.yz + xy * r.zx - zx * r.xy + yz * r.w,
 			w * r.zx + yz * r.xy - xy * r.yz + zx * r.w,
 			w * r.xy + zx * r.yz - yz * r.zx + xy * r.w
+		};
+	}
+
+	constexpr Rotor operator-() const {
+		return {
+			w,
+			-yz,
+			-zx,
+			-xy
 		};
 	}
 
@@ -78,6 +96,41 @@ public:
 		result.push_back(',');
 		result += std::to_string(xy);
 		result.push_back('>');
+		return result;
+	}
+
+	constexpr operator Matrix3<T>() const {
+		auto transform = [this](T* data, T tx, T ty, T tz, T txyz) {
+			data[0] = w * tx + xy * ty + yz * txyz - zx * tz;
+			data[1] = w * ty + yz * tz + zx * txyz - xy * tx;
+			data[2] = w * tz + zx * tx + xy * txyz - yz * ty;
+		};
+
+		Matrix3<T> result;
+		transform(result.data[0], w, -xy, zx, yz);
+		transform(result.data[1], xy, w, -yz, zx);
+		transform(result.data[2], -zx, yz, w, xy);
+
+		return result;
+	}
+
+	constexpr operator Matrix4<T>() const {
+		auto transform = [this](T* data, T tx, T ty, T tz, T txyz) {
+			data[0] = w * tx + xy * ty + yz * txyz - zx * tz;
+			data[1] = w * ty + yz * tz + zx * txyz - xy * tx;
+			data[2] = w * tz + zx * tx + xy * txyz - yz * ty;
+			data[3] = 0;
+		};
+
+		Matrix4<T> result;
+		transform(result.data[0], w, -xy, zx, yz);
+		transform(result.data[1], xy, w, -yz, zx);
+		transform(result.data[2], -zx, yz, w, xy);
+		result.data[3][0] = 0.0;
+		result.data[3][1] = 0.0;
+		result.data[3][2] = 0.0;
+		result.data[3][3] = 1.0;
+
 		return result;
 	}
 

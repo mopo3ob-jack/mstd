@@ -6,7 +6,7 @@ demo: demo.cpp
 .PHONY: install
 install:
 	mkdir -pv /usr/include/mstd
-	cp -rv inc /usr/include/mstd/inc
+	cp -rv inc /usr/include/mstd
 	cp -v pkg/** /usr/include/mstd
 
 .PHONY: uninstall

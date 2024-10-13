@@ -5,6 +5,9 @@
 #include "inc/geometry/Vector3.hpp"
 #include "inc/geometry/Vector4.hpp"
 #include "inc/geometry/Rotor.hpp"
+#include "inc/geometry/Matrix2.hpp"
+#include "inc/geometry/Matrix3.hpp"
+#include "inc/geometry/Matrix4.hpp"
 
 
 #endif
