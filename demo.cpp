@@ -9,7 +9,7 @@ int main(int argc, char** argv) {
 	Rotorf rotorA({1.0f, 0.0f, 0.0f}, {sqrtf(0.5f), sqrtf(0.5f), 0.0f});
 	Rotorf rotorB({1.0f, 0.0f, 0.0f}, {1.0f, 0.0f, 0.0f});
 
-	Matrix4f matrix = Matrix4f::projection(1, M_PI / 2, 0.125, 4096.0);
+	Matrix4f matrix = Matrix4f::perspective(1, M_PI / 2, 0.125, 4096.0);
 
 	for (U32 y = 0; y < 4; ++y) {
 		for (U32 x = 0; x < 4; ++x) {

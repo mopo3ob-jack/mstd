@@ -55,6 +55,16 @@ public:
 		return data[i];
 	}
 
+	static constexpr Matrix2 rotateZ(T angle) {
+		T cosA = std::cos(angle);
+		T sinA = std::sin(angle);
+
+		return {
+			{cosA,  -sinA},
+			{sinA,  cosA},
+		};
+	}
+
 	T data[2][2];
 };
 

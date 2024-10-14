@@ -2,6 +2,7 @@
 #define MSTD_MATRIX4_HPP
 
 #include "../primitive.h"
+#include "Vector3.hpp"
 #include "Vector4.hpp"
 #include <cstring>
 #include <initializer_list>
@@ -76,8 +77,49 @@ public:
 		};
 	}
 
-	static constexpr Matrix4 rotation(T x, T y, T z) {
+	static constexpr Matrix4 rotateX(T angle) {
+		T cosA = std::cos(angle);
+		T sinA = std::sin(angle);
 
+		return {
+			{1,  0,    0,     0},
+			{0,  cosA, -sinA, 0},
+			{0,  sinA, cosA,  0},
+			{0,  0,    0,     1}
+		};
+	}
+
+	static constexpr Matrix4 rotateY(T angle) {
+		T cosA = std::cos(angle);
+		T sinA = std::sin(angle);
+
+		return {
+			{cosA,  0, sinA,  0},
+			{0,     1, 0,     0},
+			{-sinA, 0, cosA,  0},
+			{0,     0, 0,     1}
+		};
+	}
+
+	static constexpr Matrix4 rotateZ(T angle) {
+		T cosA = std::cos(angle);
+		T sinA = std::sin(angle);
+
+		return {
+			{cosA,  -sinA, 1, 0},
+			{sinA,  cosA,  0, 0},
+			{0,     0,     1, 0},
+			{0,     0,     0, 1}
+		};
+	}
+
+	static constexpr Matrix4 translate(Vector3<T> position) {
+		return {
+			{1, 0, 0, position.x},
+			{0, 1, 0, position.y},
+			{0, 0, 1, position.z},
+			{0, 0, 0, 1}
+		};
 	}
 
 	constexpr T* operator[](Size i) {

@@ -61,6 +61,39 @@ public:
 		return data[i];
 	}
 
+	static constexpr Matrix3 rotateX(T angle) {
+		T cosA = std::cos(angle);
+		T sinA = std::sin(angle);
+
+		return {
+			{1,  0,    0},
+			{0,  cosA, -sinA},
+			{0,  sinA, cosA},
+		};
+	}
+
+	static constexpr Matrix3 rotateY(T angle) {
+		T cosA = std::cos(angle);
+		T sinA = std::sin(angle);
+
+		return {
+			{cosA,  0, sinA},
+			{0,     1, 0},
+			{-sinA, 0, cosA},
+		};
+	}
+
+	static constexpr Matrix3 rotateZ(T angle) {
+		T cosA = std::cos(angle);
+		T sinA = std::sin(angle);
+
+		return {
+			{cosA,  -sinA, 1},
+			{sinA,  cosA,  0},
+			{0,     0,     1},
+		};
+	}
+
 	T data[3][3];
 };
 
