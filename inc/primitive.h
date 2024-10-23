@@ -10,7 +10,7 @@
 namespace mstd {
 
 // Character types
-typedef char8_t     C8;
+typedef char        C8;
 typedef char16_t    C16;
 typedef char32_t    C32;
 
