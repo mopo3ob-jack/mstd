@@ -62,7 +62,7 @@ public:
 		return x * v.x + y * v.y + z * v.z + w * v.w;
 	}
 
-	constexpr T length() const {
+	constexpr T magnitude() const {
 		return std::sqrt(x * x + y * y + z * z + w * w);
 	}
 
@@ -76,6 +76,10 @@ public:
 		T invLength = 1.0f / std::sqrt(x * x + y * y + z * z + w * w);
 
 		return *this *= invLength;
+	}
+
+	constexpr Vector4 reflect(const Vector4& v) const {
+		return v - (2 * dot(v) * *this);
 	}
 
 	constexpr operator std::string() const {
@@ -106,6 +110,16 @@ public:
 		};
 	};
 };
+
+template <typename T>
+constexpr Vector4<T> operator*(T s, Vector4<T> v) {
+	return Vector4(s * v.x, s * v.y, s * v.z, s * v.w);
+}
+
+template <typename T>
+constexpr Vector4<T> operator/(T s, Vector4<T> v) {
+	return Vector4(s / v.x, s / v.y, s / v.z, s / v.w);
+}
 
 template <>
 constexpr inline Vector4<F32> Vector4<F32>::operator/(F32 s) const {

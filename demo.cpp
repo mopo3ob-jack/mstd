@@ -1,6 +1,7 @@
 #include <iostream>
 #include <time.h>
 #include <mstd/geometry>
+#include <valarray>
 
 int main(int argc, char** argv) {
 	using namespace mstd;
@@ -18,7 +19,10 @@ int main(int argc, char** argv) {
 		std::cout << "\n";
 	}
 
+	std::cout << std::string(Vector2(1.0f, 1.0f).normalized().reflect({-1, 0})) << "\n";
+
 	//std::cout << std::string(matrix * vector) << "\n";
+	std::valarray<F32> array = {0.0f, 0.0f, 0.0f, 0.0f};
 	
 	return 0;
 }
