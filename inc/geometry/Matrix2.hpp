@@ -1,7 +1,7 @@
 #ifndef MSTD_MATRIX2_HPP
 #define MSTD_MATRIX2_HPP
 
-#include "../primitive.h"
+#include "../misc/primitive.h"
 #include "Vector2.hpp"
 #include <cstring>
 #include <initializer_list>

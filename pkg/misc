@@ -1,0 +1,7 @@
+#ifndef MSTD_MISC
+#define MSTD_MISC
+
+#include "../inc/misc/primitive.h"
+#include "../inc/misc/errorText.h"
+
+#endif

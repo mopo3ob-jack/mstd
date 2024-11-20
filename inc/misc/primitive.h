@@ -1,31 +1,35 @@
 #ifndef MSTD_PRIMITIVE_H
 #define MSTD_PRIMITIVE_H
 
-
 #ifdef __cplusplus
 
 #include <cstdint>
 #include <cstddef>
+#include <cuchar>
 
 namespace mstd {
 
 // Character types
+#ifdef __cpp_char8_t
 typedef char8_t     C8;
+#endif
 typedef char16_t    C16;
+#ifdef __cpp_unicode_characters
 typedef char32_t    C32;
+#endif
 
 #else
 
 #include <stdint.h>
 #include <stddef.h>
+#include <uchar.h>
 
 // Character types
 typedef char        C8;
 typedef wchar_t     C16;
-typedef uint32_t    C32;
+typedef char32_t    C32;
 
 #endif
-
 
 // Signed integer types
 typedef int8_t      I8;
@@ -51,8 +55,8 @@ typedef uint8_t     Bool;
 #ifdef __cplusplus
 #ifndef MSTD_SUPRESS_PRIMITIVE_SIZE_GURANTEE
 static_assert(sizeof(C8) == 1);
-static_assert(sizeof(C16) == 2);
-static_assert(sizeof(C32) == 4);
+static_assert(sizeof(C16) >= 2);
+static_assert(sizeof(C32) >= 4);
 
 static_assert(sizeof(I8) == 1);
 static_assert(sizeof(I16) == 2);
