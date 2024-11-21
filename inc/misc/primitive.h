@@ -1,6 +1,7 @@
 #ifndef MSTD_PRIMITIVE_H
 #define MSTD_PRIMITIVE_H
 
+// Character types
 #ifdef __cplusplus
 
 #include <cstdint>
@@ -9,27 +10,17 @@
 
 namespace mstd {
 
-// Character types
-#ifdef __cpp_char8_t
-typedef char8_t     C8;
-#endif
-typedef char16_t    C16;
-#ifdef __cpp_unicode_characters
-typedef char32_t    C32;
-#endif
-
 #else
 
 #include <stdint.h>
 #include <stddef.h>
 #include <uchar.h>
 
-// Character types
-typedef char        C8;
-typedef wchar_t     C16;
-typedef char32_t    C32;
-
 #endif
+
+typedef char        C8;
+typedef char16_t    C16;
+typedef char32_t    C32;
 
 // Signed integer types
 typedef int8_t      I8;
