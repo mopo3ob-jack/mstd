@@ -45,6 +45,16 @@ public:
 		}
 	}
 
+	Arena(Arena&) = delete;
+	Arena& operator=(Arena&) = delete;
+
+	Arena(Arena&& arena) : maxSize(arena.maxSize) {
+		this->first = arena.first;
+		this->pageSize = arena.pageSize;
+		this->last = arena.last;
+		this->current = arena.current;
+	}
+
 	template <typename T>
 	T* reserve(Size count, Size alignment = alignof(T)) {
 		current += (Size)current % alignment;

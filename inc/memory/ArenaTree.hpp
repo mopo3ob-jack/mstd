@@ -1,33 +1,32 @@
-#ifndef MSTD_TREE_HPP
-#define MSTD_TREE_HPP
+#ifndef MSTD_ARENATREE_HPP
+#define MSTD_ARENATREE_HPP
 
-#include "allocator.hpp"
+#include "Arena.hpp"
 
 namespace mstd {
 
 template <typename T, Size degree>
-class Tree {
+class ArenaTree {
 public:
-	Tree() {
-		alloc(nodes, 1);
+	ArenaTree(Arena& arena) {
+		nodes = arena.reserve<Node>(1);
 		nodeCount = 1;
 		nodeCapacity = 1;
 	}
 
-	~Tree() {
+	~ArenaTree() {
 		if (nodes) {
-			free(nodes);
 			nodes = nullptr;
 			nodeCount = 0;
 			nodeCapacity = 0;
 		}
 	}
 
-	Tree(Tree&& tree) {
+	ArenaTree(ArenaTree&& tree) {
 		this->operator=(tree);
 	}
 
-	Tree&& operator=(Tree&& tree) {
+	ArenaTree&& operator=(ArenaTree&& tree) {
 		this->~Tree();
 
 		this->nodes = tree.nodes;
@@ -39,8 +38,8 @@ public:
 		tree.nodeCapacity = 0;
 	}
 
-	Tree(Tree&) = delete;
-	Tree& operator=(Tree& tree) = delete;
+	ArenaTree(ArenaTree&) = delete;
+	ArenaTree& operator=(ArenaTree& tree) = delete;
 
 	struct Node {
 		union {
@@ -53,7 +52,7 @@ public:
 		return nodes;
 	}
 
-	void addChildren(Node* node) {
+	void addChildren(Node* node, Arena& arena) {
 		nodeCount += degree;
 
 		for (Size i = 0; i < degree; ++i) {
@@ -62,7 +61,7 @@ public:
 
 		if (nodeCount > nodeCapacity) {
 			nodeCapacity += degree * degree;
-			realloc(nodes, nodeCapacity);
+			arena.reserve<Node>(degree * degree);
 		}
 	}
 
@@ -70,9 +69,9 @@ public:
 		return nodeCount;
 	}
 
-	void reserve(Size size) {
+	void reserve(Size size, Arena& arena) {
 		nodeCapacity += size;
-		realloc(nodes, nodeCapacity);
+		arena.reserve<Node>(size);
 	}
 
 	Size capacity() const {
@@ -86,13 +85,13 @@ private:
 };
 
 template <typename T>
-class BinaryTree : public Tree<T, 2> {};
+class ArenaBinaryTree : public ArenaTree<T, 2> {};
 
 template <typename T>
-class Quadtree : public Tree<T, 4> {};
+class ArenaQuadtree : public ArenaTree<T, 4> {};
 
 template <typename T>
-class Octree : public Tree<T, 8> {};
+class ArenaOctree : public ArenaTree<T, 8> {};
 
 }
 
