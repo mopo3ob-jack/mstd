@@ -6,17 +6,38 @@ template <typename T, Size degree>
 class Tree {
 public:
 	Tree() {
-		alloc(nodes, 1, alignof(T));
+		alloc(nodes, 1);
 		nodeCount = 1;
 		nodeCapacity = 1;
 	}
 
 	~Tree() {
-		free(nodes);
-		nodes = nullptr;
-		nodeCount = 0;
-		nodeCapacity = 0;
+		if (nodes) {
+			free(nodes);
+			nodes = nullptr;
+			nodeCount = 0;
+			nodeCapacity = 0;
+		}
 	}
+
+	Tree(Tree&& tree) {
+		this->operator=(tree);
+	}
+
+	Tree&& operator=(Tree&& tree) {
+		this->~Tree();
+
+		this->nodes = tree.nodes;
+		this->nodeCount = tree.nodeCount;
+		this->nodeCapacity = tree.nodeCapacity;
+
+		tree.nodes = nullptr;
+		tree.nodeCount = 0;
+		tree.nodeCapacity = 0;
+	}
+
+	Tree(Tree&) = delete;
+	Tree& operator=(Tree& tree) = delete;
 
 	struct Node {
 		union {
