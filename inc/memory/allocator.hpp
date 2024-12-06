@@ -29,11 +29,6 @@ static inline Status alloc(T*& result, Size count, Size alignment = alignof(T)) 
 }
 
 template <typename T>
-static inline T* realloc(T* result, Size count) {
-	return (T*)std::realloc(result, count * sizeof(T));
-}
-
-template <typename T>
 static inline Status realloc(T*& result, Size count) {
 	result = (T*)std::realloc(result, count * sizeof(T));
 	return result != nullptr;
