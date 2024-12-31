@@ -1,27 +1,14 @@
 #ifndef MSTD_TREE_HPP
 #define MSTD_TREE_HPP
 
-#include "allocator.hpp"
+#include "Arena.hpp"
 
 namespace mstd {
 
 template <typename T, Size degree>
 class Tree {
 public:
-	Tree() {
-		alloc(nodes, 1);
-		nodeCount = 1;
-		nodeCapacity = 1;
-	}
-
-	~Tree() {
-		if (nodes) {
-			free(nodes);
-			nodes = nullptr;
-			nodeCount = 0;
-			nodeCapacity = 0;
-		}
-	}
+	Tree() {}
 
 	Tree(Tree&& tree) {
 		this->operator=(tree);
@@ -30,69 +17,40 @@ public:
 	Tree&& operator=(Tree&& tree) {
 		this->~Tree();
 
-		this->nodes = tree.nodes;
-		this->nodeCount = tree.nodeCount;
-		this->nodeCapacity = tree.nodeCapacity;
+		this->rootNode = tree.rootNode;
 
-		tree.nodes = nullptr;
-		tree.nodeCount = 0;
-		tree.nodeCapacity = 0;
+		tree.rootNode = nullptr;
 	}
 
-	Tree(Tree&) = delete;
+	Tree(Tree& tree, Arena& arena) {
+		this->rootNode.value = tree.rootNode.value;
+	}
+
 	Tree& operator=(Tree& tree) = delete;
 
 	struct Node {
-		union {
-			T leaves[degree];
-			Node* nodes[degree];
-		};
+		Node* nodes;
+		T value;
+
+		Node& operator[](Size i) {
+			return nodes[i];
+		}
 	};
 
-	Node* root() const {
-		return nodes;
+	Node& root() {
+		return rootNode;
 	}
 
-	void addChildren(Node* node) {
-		nodeCount += degree;
+	void addChildren(Node& node, Arena& arena) {
+		node.nodes = arena.reserve<Node>(degree);
 
 		for (Size i = 0; i < degree; ++i) {
-			node->nodes[i] = nodes + nodeCapacity + i; 
-		}
-
-		if (nodeCount > nodeCapacity) {
-			nodeCapacity += degree * degree;
-			realloc(nodes, nodeCapacity);
+			node[i] = { .nodes = {nullptr} };
 		}
 	}
-
-	Size size() const {
-		return nodeCount;
-	}
-
-	void reserve(Size size) {
-		nodeCapacity += size;
-		realloc(nodes, nodeCapacity);
-	}
-
-	Size capacity() const {
-		return nodeCapacity;
-	}
-
 private:
-	Node* nodes;
-	Size nodeCount;
-	Size nodeCapacity;
+	Node rootNode;
 };
-
-template <typename T>
-class BinaryTree : public Tree<T, 2> {};
-
-template <typename T>
-class Quadtree : public Tree<T, 4> {};
-
-template <typename T>
-class Octree : public Tree<T, 8> {};
 
 }
 

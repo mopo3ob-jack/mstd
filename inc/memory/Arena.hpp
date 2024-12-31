@@ -19,10 +19,12 @@ namespace mstd {
 
 class Arena {
 public:
-	Arena(Size maxSize = (1ull << (sizeof(U8*) * 8 - 4))) : maxSize(maxSize) {
+	Arena(Size maxSize) : maxSize(maxSize) {
 #ifdef __unix__
 		first = (U8*)mmap(nullptr, maxSize, PROT_NONE, MAP_ANONYMOUS | MAP_PRIVATE, -1, 0);
 		pageSize = sysconf(_SC_PAGESIZE);
+
+		std::cout << strerror(errno) << "\n";
 #elif defined(_WIN32)
 		first = (U8*)VirtualAlloc(nullptr, maxSize, MEM_RESERVE, PAGE_NOACCESS);
 		SYSTEM_INFO sysInfo;
@@ -53,6 +55,10 @@ public:
 		this->pageSize = arena.pageSize;
 		this->last = arena.last;
 		this->current = arena.current;
+
+		arena.first = nullptr;
+		arena.last = nullptr;
+		arena.current = nullptr;
 	}
 
 	template <typename T>

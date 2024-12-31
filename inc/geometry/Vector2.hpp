@@ -120,6 +120,9 @@ public:
 		struct {
 			T i, j;
 		};
+		struct {
+			T w, h;
+		};
 	};
 };
 
