@@ -4,6 +4,5 @@
 #include "inc/memory/allocator.hpp"
 #include "inc/memory/Arena.hpp"
 #include "inc/memory/Tree.hpp"
-#include "inc/memory/ArenaTree.hpp"
 
 #endif

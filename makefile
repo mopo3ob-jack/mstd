@@ -1,8 +1,9 @@
+FILES:=$(shell find ./ ! -path "./.git/*")
+
 .PHONY: install
 install:
 	mkdir -pv /usr/include/mstd
-	cp -rv inc /usr/include/mstd
-	cp -v pkg/** /usr/include/mstd
+	cp -v $(FILES) /usr/include/mstd
 
 .PHONY: uninstall
 uninstall:
