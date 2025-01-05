@@ -1,7 +1,7 @@
 #ifndef MSTD_MATRIX4_HPP
 #define MSTD_MATRIX4_HPP
 
-#include "../misc/primitive.h"
+#include "../misc.d/primitive.h"
 #include "Vector3.hpp"
 #include "Vector4.hpp"
 #include <cstring>

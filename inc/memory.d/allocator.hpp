@@ -1,7 +1,7 @@
 #ifndef MSTD_MEMORY_HPP
 #define MSTD_MEMORY_HPP
 
-#include "../misc/primitive.h"
+#include "../misc.d/primitive.h"
 
 #include <cstdlib>
 

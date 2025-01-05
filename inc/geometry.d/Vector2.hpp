@@ -1,7 +1,7 @@
 #ifndef MSTD_VECTOR2_HPP
 #define MSTD_VECTOR2_HPP
 
-#include "../misc/primitive.h"
+#include "../misc.d/primitive.h"
 #include <string>
 #include <cmath>
 
