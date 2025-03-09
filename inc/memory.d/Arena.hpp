@@ -103,6 +103,15 @@ public:
 		return result;
 	}
 
+	void clear() {
+		current = first;
+	}
+
+	template <typename T>
+	void truncate(T* to) {
+		current = to;
+	}
+
 protected:
 	U8*           first;
 	U8*           last;

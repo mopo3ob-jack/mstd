@@ -22,6 +22,11 @@ static Status prefetch(T* address, Size length) {
 	length += address - page;
 	return madvise(page, length, MADV_WILLNEED);
 #elif defined(_WIN32)
+	_WIN32_MEMORY_RANGE_ENTRY range = {
+		.VirtualAddress = (PVOID)address,
+		.NumberOfBytes = (SIZE_T)(length * sizeof(T))
+	};
+	return PrefetchVirtualMemory(GetCurrentProcess(), 1, &range, 0L) == 0;
 #endif
 }
 
