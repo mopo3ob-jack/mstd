@@ -19,11 +19,16 @@ static Status prefetch(T* address, Size length) {
 #ifdef __unix__
 	const Size pageSize = sysconf(_SC_PAGESIZE);
 	void* page = (void*)((Size)address & ~(pageSize - 1));
-	length += address - page;
+	length += (Size)address - (Size)page;
 	return madvise(page, length, MADV_WILLNEED);
 #elif defined(_WIN32)
+	SYSTEM_INFO sysInfo;
+	GetSystemInfo(&sysInfo);
+	const Size pageSize = sysInfo.dwPageSize;
+	void* page = (void*)((Size)address & ~(pageSize - 1));
+	length += (Size)address - (Size)page;
 	_WIN32_MEMORY_RANGE_ENTRY range = {
-		.VirtualAddress = (PVOID)address,
+		.VirtualAddress = (PVOID)page,
 		.NumberOfBytes = (SIZE_T)(length * sizeof(T))
 	};
 	return PrefetchVirtualMemory(GetCurrentProcess(), 1, &range, 0L) == 0;
