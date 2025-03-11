@@ -23,3 +23,6 @@ Defines an X by X matrix.
 
 #### Rotor.hpp
 I am fueled by my hatred for quaternions.
+
+##
+Check out [beaUtils](https://github.com/Dassh01/beaUtils)!
