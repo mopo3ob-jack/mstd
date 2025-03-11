@@ -11,3 +11,5 @@ include(GNUInstallDirs)
 add_library(mstd INTERFACE)
 
 target_include_directories(mstd INTERFACE inc/)
+
+install(DIRECTORY inc/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})

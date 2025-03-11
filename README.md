@@ -10,7 +10,11 @@ Contains color coded messages using ansi escape codes.
 
 ## Memory
 #### allocator.hpp
-Contains wrappers for C-style procedural allocators. They have the ability to count allocations to check for leaks.
+Contains wrappers for C-style allocators. They have the ability to count allocations to check for leaks.
+
+### prefetch.hpp
+Request pages to be prefetched by the kernel 
+
 #### Arena.hpp
 Defines an allocator that can quickly allocate memory, but must free everything at once.
 
