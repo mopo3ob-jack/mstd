@@ -13,7 +13,7 @@ class Matrix2 {
 public:
 	constexpr Matrix2() {}
 
-	constexpr Matrix2(T s) {
+	constexpr explicit Matrix2(T s) {
 		data[0][0] = s;
 		data[1][0] = 0;
 		data[1][1] = s;

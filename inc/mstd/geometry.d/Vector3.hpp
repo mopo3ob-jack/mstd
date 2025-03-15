@@ -12,7 +12,7 @@ class Vector3 {
 public:
 	constexpr Vector3() {}
 
-	constexpr Vector3(T s) {
+	constexpr explicit Vector3(T s) {
 		x = s;
 		y = s;
 		z = s;

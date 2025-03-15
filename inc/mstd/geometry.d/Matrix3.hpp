@@ -13,7 +13,7 @@ class Matrix3 {
 public:
 	constexpr Matrix3() {}
 
-	constexpr Matrix3(T s) {
+	constexpr explicit Matrix3(T s) {
 		data[0][0] = s;
 		data[1][0] = 0;
 		data[2][0] = 0;
