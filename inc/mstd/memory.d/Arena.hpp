@@ -8,8 +8,7 @@
 #include <sys/mman.h>
 #include <unistd.h>
 #elif defined(_WIN32)
-#include <memoryapi.h>
-#include <sysinfoapi.h>
+#include <Windows.h>
 #else
 #error This library is not compatible with this system
 #endif
