@@ -39,7 +39,7 @@ public:
 #ifdef __unix__
 			munmap(first, maxSize);
 #elif defined(_WIN32)
-			VirtualFree(first, maxSize, MEM_RELEASE);
+			VirtualFree(first, 0, MEM_RELEASE);
 #endif
 
 			first = nullptr;
