@@ -66,13 +66,13 @@ public:
 		return result;
 	}
 
-	static constexpr Matrix4 perspective(T aspect, T fov, T near, T far) {
-		T length = far - near;
+	static constexpr Matrix4 perspective(T aspect, T fov, T zNear, T zFar) {
+		T length = zFar - zNear;
 
 		return {
 			{T(1) / (aspect * std::tan(fov / T(2))), 0, 0, 0},
 			{0, T(1) / (std::tan(fov / T(2))), 0, 0},
-			{0, 0, (far + near) / length, -2 * far * near / length},
+			{0, 0, (zFar + zNear) / length, -2 * zFar * zNear / length},
 			{0, 0, 1, 0}
 		};
 	}
