@@ -87,7 +87,7 @@ public:
 	}
 
 	template <typename T>
-	T* append(Size count, T* data, Size alignment = alignof(T)) {
+	T* append(Size count, const T* data, Size alignment = alignof(T)) {
 		current += (Size)current % alignment;
 		T* result = (T*)current;
 		Size size = count * sizeof(T);
