@@ -49,7 +49,11 @@ public:
 	Arena(Arena&) = delete;
 	Arena& operator=(Arena&) = delete;
 
-	Arena(Arena&& arena) : maxSize(arena.maxSize) {
+	Arena(Arena&& arena) = default;
+
+	Arena& operator=(Arena&& arena) {
+		this->~Arena();
+
 		this->first = arena.first;
 		this->pageSize = arena.pageSize;
 		this->last = arena.last;
@@ -58,6 +62,8 @@ public:
 		arena.first = nullptr;
 		arena.last = nullptr;
 		arena.current = nullptr;
+
+		return *this;
 	}
 
 	template <typename T>
