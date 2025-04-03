@@ -22,8 +22,6 @@ public:
 #ifdef __unix__
 		first = (U8*)mmap(nullptr, maxSize, PROT_NONE, MAP_ANONYMOUS | MAP_PRIVATE, -1, 0);
 		pageSize = sysconf(_SC_PAGESIZE);
-
-		std::cout << strerror(errno) << "\n";
 #elif defined(_WIN32)
 		first = (U8*)VirtualAlloc(nullptr, maxSize, MEM_RESERVE, PAGE_NOACCESS);
 		SYSTEM_INFO sysInfo;
