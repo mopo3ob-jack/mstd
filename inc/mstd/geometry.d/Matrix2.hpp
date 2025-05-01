@@ -21,7 +21,7 @@ public:
 	}
 
 	constexpr Matrix2(std::initializer_list<Vector2<T>> init) {
-		std::memcpy(data, init.begin(), sizeof(T) * 4);
+		std::copy(data, data + 4, init);
 	}
 
 	constexpr Matrix2 operator*(Matrix2 m) {

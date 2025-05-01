@@ -34,7 +34,7 @@ public:
 	}
 
 	constexpr Matrix4(std::initializer_list<Vector4<T>> init) {
-		std::memcpy(data, init.begin(), sizeof(T) * 16);
+		std::copy(data, data + 16, init);
 	}
 
 	constexpr Matrix4 operator*(Matrix4 m) const {

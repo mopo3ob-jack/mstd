@@ -26,7 +26,7 @@ public:
 	}
 
 	constexpr Matrix3(std::initializer_list<Vector3<T>> init) {
-		std::memcpy(data, init.begin(), sizeof(T) * 9);
+		std::copy(data, data + 9, init);
 	}
 
 	constexpr Matrix3 operator*(Matrix3 m) {
