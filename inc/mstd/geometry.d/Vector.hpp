@@ -2,10 +2,12 @@
 #define MSTD_VECTOR_HPP
 
 #include "../misc.d/primitive.h"
-#include <glm/vec2.hpp>
+#include "../misc.d/errorText.h"
 #include <initializer_list>
 #include <utility>
 #include <cmath>
+#include <iostream>
+#include <string>
 
 namespace mstd {
 
@@ -21,21 +23,20 @@ struct IsVector<Vector<T, R>> : std::true_type {};
 template <typename T>
 concept VectorType = IsVector<T>::value;
 
-template <typename T>
-constexpr Size vectorSize = 1;
-
-template <typename T, Size R>
-constexpr Size vectorSize<Vector<T, R>> = R;
-
-template <typename... Args>
-constexpr Size totalArgSize = (vectorSize<std::decay_t<Args>> + ... + 0);
-
 template <typename T, Size R>
 class Vector {
 public:
+	template <typename U>
+	static constexpr Size size = 1;
+
+	template <typename U, Size S>
+	static constexpr Size size<Vector<U, S>> = S;
+
+	template <typename... Args>
+	static constexpr Size totalArgSize = (size<std::decay_t<Args>> + ... + 0);
+
 	constexpr Vector() {}
 
-	// Constructors
 	constexpr Vector(T s) {
 		for (Size i = 0; i < R; ++i) data[i] = s;
 	}
@@ -50,14 +51,15 @@ public:
 		(append(index, std::forward<Args>(args)), ...);
 	}
 
-	// Copy operators
 	constexpr Vector& operator=(T s) {
 		for (Size i = 0; i < R; ++i) data[i] = s;
 		return *this;
 	}
 
 	constexpr Vector& operator=(std::initializer_list<T> l) {
-		static_assert(l.size() != R);
+		if (l.size() != R) {
+			std::cerr << errorText << "";
+		}
 		for (Size i = 0; i < l.size(); ++i) data[i] = l[i];
 		return *this;
 	}
@@ -140,28 +142,22 @@ public:
 		return result;
 	}
 
-	constexpr Vector operator+=(const Vector& v) {
-		Vector result;
-		for (Size i = 0; i < R; ++i) result[i] = data[i] += v.data[i];
-		return result;
+	constexpr Vector& operator+=(const Vector& v) {
+		for (Size i = 0; i < R; ++i) data[i] += v.data[i];
+		return *this;
 	}
 
-	constexpr Vector operator-=(const Vector& v) {
-		Vector result;
-		for (Size i = 0; i < R; ++i) result[i] = data[i] -= v.data[i];
-		return result;
+	constexpr Vector& operator-=(const Vector& v) {
+		for (Size i = 0; i < R; ++i) data[i] -= v.data[i];
+		return *this;
 	}
 
-	constexpr Vector operator*=(const Vector& v) {
-		Vector result;
-		for (Size i = 0; i < R; ++i) result[i] = data[i] *= v.data[i];
-		return result;
+	constexpr Vector& operator*=(const Vector& v) {
+		for (Size i = 0; i < R; ++i) data[i] *= v.data[i];
 	}
 	
-	constexpr Vector operator/=(const Vector& v) {
-		Vector result;
-		for (Size i = 0; i < R; ++i) result[i] = data[i] /= v.data[i];
-		return result;
+	constexpr Vector& operator/=(const Vector& v) {
+		for (Size i = 0; i < R; ++i) data[i] /= v.data[i];
 	}
 
 	constexpr T dot(Vector v) const {
@@ -183,9 +179,19 @@ public:
 	constexpr T& operator[](Size i) {
 		return data[i];
 	}
-	
-	static consteval Size size() {
-		return R;
+
+	constexpr operator std::string() const {
+		std::string result;
+		std::string first(data[0]);
+		result.reserve(R * (first.size() + 1) + 2);
+		result.push_back('<');
+		for (Size i = 1; i < R; ++i) {
+			result.push_back(',');
+			result += std::move(std::string(data[0]));
+		}
+		result.push_back('>');
+
+		return result;
 	}
 
 private:

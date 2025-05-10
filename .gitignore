@@ -2,3 +2,4 @@ build/
 CMakeCache/
 cmake_install.cmake
 Makefile
+.clangd

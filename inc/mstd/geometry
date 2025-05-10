@@ -1,6 +1,7 @@
 #ifndef MSTD_GEOMETRY
 #define MSTD_GEOMETRY
 
+#include "geometry.d/Vector.hpp"
 #include "geometry.d/Vector2.hpp"
 #include "geometry.d/Vector3.hpp"
 #include "geometry.d/Vector4.hpp"
