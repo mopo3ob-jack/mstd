@@ -1,126 +1,15 @@
 #ifndef MSTD_VECTOR3_HPP
 #define MSTD_VECTOR3_HPP
 
-#include "../misc.d/primitive.h"
-#include <string>
-#include <cmath>
+#include "Vector.hpp"
 
 namespace mstd {
 
 template <typename T>
-class Vector3 {
+class Vector<T, 3> {
 public:
-	constexpr Vector3() {}
-
-	constexpr explicit Vector3(T s) {
-		x = s;
-		y = s;
-		z = s;
-	}
-
-	constexpr Vector3(T x, T y, T z) {
-		this->x = x;
-		this->y = y;
-		this->z = z;
-	}
-
-	constexpr Vector3(const Vector3& v) {
-		this->x = v.x;
-		this->y = v.y;
-		this->z = v.z;
-	}
-
-	constexpr Vector3 operator=(const Vector3& v) {
-		this->x = v.x;
-		this->y = v.y;
-		this->z = v.z;
-
-		return *this;
-	}
-
-	constexpr Vector3 operator+(const Vector3& v) const {
-		return Vector3(x + v.x, y + v.y, z + v.z);
-	}
-
-	constexpr Vector3 operator-() const {
-		return Vector3(-x, -y, -z);
-	}
-
-	constexpr Vector3 operator-(const Vector3& v) const {
-		return Vector3(x - v.x, y - v.y, z - v.z);
-	}
-
-	constexpr Vector3 operator*(T s) const {
-		return Vector3(x * s, y * s, z * s);
-	}
-
-	constexpr Vector3 operator/(T s) const { \
-		return Vector3(x / s, y / s, z / s);
-	}
-
-	constexpr Vector3 operator+=(const Vector3& v) {
-		return *this = *this + v;
-	}
-
-	constexpr Vector3 operator-=(const Vector3& v) {
-		return *this = *this - v;
-	}
-
-	constexpr Vector3 operator*=(T s) {
-		return *this = *this * s;
-	}
-
-	constexpr Vector3 operator/=(T s) {
-		return *this = *this / s;
-	}
-
-	constexpr T dot(const Vector3& v) const {
-		return x * v.x + y * v.y + z * v.z;
-	}
-
-	constexpr Vector3 cross(const Vector3& v) const {
-		return Vector3(
-			y * v.z - z * v.y,
-			z * v.x - x * v.z,
-			x * v.y - y * v.x
-		);
-	}
-
-	constexpr T magnitude() const {
-		return std::sqrt(x * x + y * y + z * z);
-	}
-
-	constexpr Vector3 normalized() const {
-		T invLength = 1.0f / std::sqrt(x * x + y * y + z * z);
-
-		return *this * invLength;
-	}
-
-	constexpr Vector3 normalize() {
-		T invLength = 1.0f / std::sqrt(x * x + y * y + z * z);
-
-		return *this *= invLength;
-	}
-
-	constexpr Vector3 reflect(const Vector3& v) const {
-		return v - (2 * dot(v) * *this);
-	}
-
-	constexpr operator std::string() const {
-		std::string result;
-		result.reserve(48);
-
-		result.push_back('<');
-		result += std::to_string(x);
-		result.push_back(',');
-		result += std::to_string(y);
-		result.push_back(',');
-		result += std::to_string(z);
-		result.push_back('>');
-		return result;
-	}
-
 	union {
+		T data[3];
 		struct {
 			T x, y, z;
 		};
@@ -131,32 +20,128 @@ public:
 			T r, g, b;
 		};
 	};
+
+	constexpr Vector() {}
+
+	constexpr explicit Vector(T s) {
+		x = s;
+		y = s;
+		z = s;
+	}
+
+	template <typename U>
+	static constexpr Size size = 1;
+
+	template <typename U, Size S>
+	static constexpr Size size<Vector<U, S>> = S;
+
+	template <typename... Args>
+	static constexpr Size totalArgSize = (size<std::decay_t<Args>> + ... + 0);
+	
+	template <typename... Args>
+	requires (
+		((std::is_convertible_v<std::decay_t<Args>, T> || VectorType<std::decay_t<Args>>) && ...)
+		&& (totalArgSize<Args...> == 3)
+	)
+	constexpr Vector(Args&&... args) {
+		Size index = 0;
+		(append(index, std::forward<Args>(args)), ...);
+	}
+
+	constexpr Vector operator*(T s) const {
+		return Vector(x * s, y * s, z * s);
+	}
+
+	constexpr Vector operator/(T s) const {
+		return Vector(x / s, y / s, z / s);
+	}
+	
+	constexpr Vector& operator*=(T s) {
+		x *= s; y *= s; z *= s;
+		return *this;
+	}
+
+	constexpr Vector& operator/=(T s) {
+		x /= s; y /= s; z /= s;
+		return *this;
+	}
+
+	constexpr Vector operator+(const Vector& v) const {
+		return Vector(x + v.x, y + v.y, z + v.z);
+	}
+
+	constexpr Vector operator-(const Vector& v) const {
+		return Vector(x - v.x, y - v.y, z - v.z);
+	}
+
+	constexpr Vector operator*(const Vector& v) const {
+		return Vector(x * v.x, y * v.y, z * v.z);
+	}
+
+	constexpr Vector operator/(const Vector& v) const {
+		return Vector(x / v.x, y / v.y, z / v.z);
+	}
+
+	constexpr Vector operator-() const {
+		return Vector(-x, -y, -z);
+	}
+
+	constexpr Vector& operator+=(const Vector& v) {
+		x += v.x; y += v.y; z += v.z;
+		return *this;
+	}
+
+	constexpr Vector& operator-=(const Vector& v) {
+		x -= v.x; y -= v.y; z -= v.z;
+		return *this;
+	}
+
+	constexpr Vector& operator*=(const Vector& v) {
+		x *= v.x; y *= v.y; z *= v.z;
+		return *this;
+	}
+
+	constexpr Vector& operator/=(const Vector& v) {
+		x /= v.x; y /= v.y; z /= v.z;
+		return *this;
+	}
+
+	constexpr operator std::string() const {
+		std::string result;
+		std::string first = std::to_string(data[0]);
+		result.reserve(3 * (first.size() + 1) + 2);
+		result.push_back('<');
+		result += first;
+		for (Size i = 1; i < 3; ++i) {
+			result.push_back(',');
+			result += std::move(std::to_string(data[i]));
+		}
+		result.push_back('>');
+
+		return result;
+	}
+
+private:
+	constexpr void append(Size& index, const T& arg) {
+		data[index++] = arg;
+	}
+
+	template <Size S>
+	constexpr void append(Size& index, Vector<T, S>& arg) {
+		for (Size i = 0; i < S; ++i) {
+			data[index++] = arg[i];
+		}
+	}
 };
 
 template <typename T>
-constexpr Vector3<T> operator*(T s, Vector3<T> v) {
-	return Vector3(s * v.x, s * v.y, s * v.z);
+constexpr Vector<T, 3> cross(const Vector<T, 3>& a, const Vector<T, 3>& b) {
+	return Vector<T, 3>(
+		a.y * b.z - a.z * b.y,
+		a.z * b.x - a.x * b.z,
+		a.x * b.y - a.y * b.x
+	);
 }
-
-template <typename T>
-constexpr Vector3<T> operator/(T s, Vector3<T> v) {
-	return Vector3(s / v.x, s / v.y, s / v.z);
-}
-
-template <>
-constexpr inline Vector3<F32> Vector3<F32>::operator/(F32 s) const {
-	F32 is = 1.0f / s;
-	return Vector3(x * is, y * is, z * is);
-}
-
-template <>
-constexpr inline Vector3<F64> Vector3<F64>::operator/(F64 s) const {
-	F64 is = 1.0f / s;
-	return Vector3(x * is, y * is, z * is);
-}
-
-typedef Vector3<F32> Vector3f;
-typedef Vector3<F64> Vector3d;
 
 }
 

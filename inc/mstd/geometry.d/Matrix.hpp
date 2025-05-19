@@ -6,7 +6,7 @@
 
 namespace mstd {
 
-template <typename T, Size R, Size C>
+template <typename T, Size C, Size R>
 class Matrix {
 public:
 	using Column = Vector<T, R>;
@@ -24,34 +24,18 @@ public:
 	}
 
 	template <Size N>
-	constexpr Matrix operator*(const Matrix<T, C, N>& m) const {
-		Matrix<T, R, N> result;
+	constexpr Matrix operator*(const Matrix<T, N, C>& m) const {
+		Matrix<T, N, R> result;
 
-		if constexpr (R * N > 1024) {
-			Matrix<T, C, N> t = m.transpose();
+		for (Size c = 0; c < C; ++c) {
+			for (Size r = 0; r < R; ++r) {
+				T sum = 0;
 
-			for (Size c = 0; c < 4; ++c) {
-				for (Size r = 0; r < 4; ++r) {
-					T sum = 0;
-
-					for (Size i = 0; i < 4; ++i) {
-						sum += data[r][i] * t.data[c][i];
-					}
-
-					result.data[r][c] = sum;
+				for (Size i = 0; i < N; ++i) {
+					sum += data[i][r] * m.data[c][i];
 				}
-			}
-		} else {
-			for (Size c = 0; c < 4; ++c) {
-				for (Size r = 0; r < 4; ++r) {
-					T sum = 0;
 
-					for (Size i = 0; i < 4; ++i) {
-						sum += data[r][i] * m.data[i][c];
-					}
-
-					result.data[r][c] = sum;
-				}
+				result.data[c][r] = sum;
 			}
 		}
 
@@ -81,6 +65,10 @@ public:
 	}
 
 	constexpr Column& operator[](Size i) {
+		return data[i];
+	}
+
+	constexpr const Column& operator[](Size i) const {
 		return data[i];
 	}
 

@@ -1,116 +1,15 @@
 #ifndef MSTD_VECTOR2_HPP
 #define MSTD_VECTOR2_HPP
 
-#include "../misc.d/primitive.h"
-#include <string>
-#include <cmath>
+#include "Vector.hpp"
 
 namespace mstd {
 
 template <typename T>
-class Vector2 {
+class Vector<T, 2> {
 public:
-	constexpr Vector2() {}
-
-	constexpr explicit Vector2(T s) {
-		x = s;
-		y = s;
-	}
-
-	constexpr Vector2(T x, T y) {
-		this->x = x;
-		this->y = y;
-	}
-
-	constexpr Vector2(const Vector2& v) {
-		this->x = v.x;
-		this->y = v.y;
-	}
-
-	constexpr Vector2 operator=(const Vector2& v) {
-		this->x = v.x;
-		this->y = v.y;
-
-		return *this;
-	}
-
-	constexpr Vector2 operator+(const Vector2& v) const {
-		return Vector2(x + v.x, y + v.y);
-	}
-
-	constexpr Vector2 operator-() const {
-		return Vector2(-x, -y);
-	}
-
-	constexpr Vector2 operator-(const Vector2& v) const {
-		return Vector2(x - v.x, y - v.y);
-	}
-
-	constexpr Vector2 operator*(T s) const {
-		return Vector2(x * s, y * s);
-	}
-
-	constexpr Vector2 operator/(T s) const { \
-		return Vector2(x / s, y / s);
-	}
-
-	constexpr Vector2 operator+=(const Vector2& v) {
-		return Vector2(x += v.x, y += v.y);
-	}
-
-	constexpr Vector2 operator-=(const Vector2& v) {
-		return Vector2(x -= v.x, y -= v.y);
-	}
-
-	constexpr Vector2 operator*=(T s) {
-		return Vector2(x *= s, y *= s);
-	}
-
-	constexpr Vector2 operator/=(T s) {
-		return Vector2(x /= s, y /= s);
-	}
-
-	constexpr T dot(const Vector2& v) const {
-		return x * v.x + y * v.y;
-	}
-
-	constexpr T cross(const Vector2& v) const {
-		return x * v.x + y * v.y;
-	}
-
-	constexpr T magnitude() const {
-		return std::sqrt(x * x + y * y);
-	}
-
-	constexpr Vector2 normalized() const {
-		T invLength = 1.0f / std::sqrt(x * x + y * y);
-
-		return *this * invLength;
-	}
-
-	constexpr Vector2 normalize() {
-		T invLength = 1.0f / std::sqrt(x * x + y * y);
-
-		return *this *= invLength;
-	}
-
-	constexpr Vector2 reflect(const Vector2& v) const {
-		return v - (2 * dot(v) * *this);
-	}
-
-	constexpr operator std::string() const {
-		std::string result;
-		result.reserve(32);
-
-		result.push_back('<');
-		result += std::to_string(x);
-		result.push_back(',');
-		result += std::to_string(y);
-		result.push_back('>');
-		return result;
-	}
-
 	union {
+		T data[2];
 		struct {
 			T x, y;
 		};
@@ -123,21 +22,127 @@ public:
 		struct {
 			T w, h;
 		};
+		struct {
+			T r, g;
+		};
 	};
+
+	constexpr Vector() {}
+
+	constexpr explicit Vector(T s) {
+		x = s;
+		y = s;
+	}
+
+	template <typename U>
+	static constexpr Size size = 1;
+
+	template <typename U, Size S>
+	static constexpr Size size<Vector<U, S>> = S;
+
+	template <typename... Args>
+	static constexpr Size totalArgSize = (size<std::decay_t<Args>> + ... + 0);
+	
+	template <typename... Args>
+	requires (
+		((std::is_convertible_v<std::decay_t<Args>, T> || VectorType<std::decay_t<Args>>) && ...)
+		&& (totalArgSize<Args...> == 2)
+	)
+	constexpr Vector(Args&&... args) {
+		Size index = 0;
+		(append(index, std::forward<Args>(args)), ...);
+	}
+
+	constexpr Vector operator*(T s) const {
+		return Vector(x * s, y * s);
+	}
+
+	constexpr Vector operator/(T s) const {
+		return Vector(x / s, y / s);
+	}
+	
+	constexpr Vector& operator*=(T s) {
+		x *= s; y *= s;
+		return *this;
+	}
+
+	constexpr Vector& operator/=(T s) {
+		x /= s; y /= s;
+		return *this;
+	}
+
+	constexpr Vector operator+(const Vector& v) const {
+		return Vector(x + v.x, y + v.y);
+	}
+
+	constexpr Vector operator-(const Vector& v) const {
+		return Vector(x - v.x, y - v.y);
+	}
+
+	constexpr Vector operator*(const Vector& v) const {
+		return Vector(x * v.x, y * v.y);
+	}
+
+	constexpr Vector operator/(const Vector& v) const {
+		return Vector(x / v.x, y / v.y);
+	}
+
+	constexpr Vector operator-() const {
+		return Vector(-x, -y);
+	}
+
+	constexpr Vector& operator+=(const Vector& v) {
+		x += v.x; y += v.y;
+		return *this;
+	}
+
+	constexpr Vector& operator-=(const Vector& v) {
+		x -= v.x; y -= v.y;
+		return *this;
+	}
+
+	constexpr Vector& operator*=(const Vector& v) {
+		x *= v.x; y *= v.y;
+		return *this;
+	}
+
+	constexpr Vector& operator/=(const Vector& v) {
+		x /= v.x; y /= v.y;
+		return *this;
+	}
+
+	constexpr operator std::string() const {
+		std::string result;
+		std::string first = std::to_string(data[0]);
+		result.reserve(3 * (first.size() + 1) + 2);
+		result.push_back('<');
+		result += first;
+		for (Size i = 1; i < 3; ++i) {
+			result.push_back(',');
+			result += std::move(std::to_string(data[i]));
+		}
+		result.push_back('>');
+
+		return result;
+	}
+
+private:
+	constexpr void append(Size& index, const T& arg) {
+		data[index++] = arg;
+	}
+
+	template <Size S>
+	constexpr void append(Size& index, Vector<T, S>& arg) {
+		for (Size i = 0; i < S; ++i) {
+			data[index++] = arg[i];
+		}
+	}
 };
 
 template <typename T>
-constexpr Vector2<T> operator*(T s, Vector2<T> v) {
-	return Vector2(s * v.x, s * v.y);
+constexpr T cross(const Vector<T, 2>& a, const Vector<T, 2>& b) {
+	return a.x * b.y - a.y * b.x;
 }
-
-template <typename T>
-constexpr Vector2<T> operator/(T s, Vector2<T> v) {
-	return Vector2(s / v.x, s / v.y);
-}
-
-typedef Vector2<F32> Vector2f;
-typedef Vector2<F64> Vector2d;
 
 }
 

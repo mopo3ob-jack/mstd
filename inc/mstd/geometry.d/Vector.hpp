@@ -8,6 +8,7 @@
 #include <cmath>
 #include <iostream>
 #include <string>
+#include <type_traits>
 
 namespace mstd {
 
@@ -26,6 +27,14 @@ concept VectorType = IsVector<T>::value;
 template <typename T, Size R>
 class Vector {
 public:
+	T data[R];
+
+	constexpr Vector() {}
+
+	constexpr explicit Vector(T s) {
+		for (Size i = 0; i < R; ++i) data[i] = s;
+	}
+
 	template <typename U>
 	static constexpr Size size = 1;
 
@@ -34,12 +43,6 @@ public:
 
 	template <typename... Args>
 	static constexpr Size totalArgSize = (size<std::decay_t<Args>> + ... + 0);
-
-	constexpr Vector() {}
-
-	constexpr Vector(T s) {
-		for (Size i = 0; i < R; ++i) data[i] = s;
-	}
 	
 	template <typename... Args>
 	requires (
@@ -49,31 +52,6 @@ public:
 	constexpr Vector(Args&&... args) {
 		Size index = 0;
 		(append(index, std::forward<Args>(args)), ...);
-	}
-
-	constexpr Vector& operator=(T s) {
-		for (Size i = 0; i < R; ++i) data[i] = s;
-		return *this;
-	}
-
-	constexpr Vector& operator=(std::initializer_list<T> l) {
-		if (l.size() != R) {
-			std::cerr << errorText << "";
-		}
-		for (Size i = 0; i < l.size(); ++i) data[i] = l[i];
-		return *this;
-	}
-
-	constexpr Vector operator+(T s) const {
-		Vector result;
-		for (Size i = 0; i < R; ++i) result[i] = data[i] + s;
-		return result;
-	}
-
-	constexpr Vector operator-(T s) const {
-		Vector result;
-		for (Size i = 0; i < R; ++i) result[i] = data[i] - s;
-		return result;
 	}
 
 	constexpr Vector operator*(T s) const {
@@ -88,28 +66,14 @@ public:
 		return result;
 	}
 
-	constexpr Vector operator+=(T s) {
-		Vector result;
-		for (Size i = 0; i < R; ++i) result[i] = data[i] += s;
-		return result;
-	}
-
-	constexpr Vector operator-=(T s) {
-		Vector result;
-		for (Size i = 0; i < R; ++i) result[i] = data[i] -= s;
-		return result;
-	}
-
-	constexpr Vector operator*=(T s) {
-		Vector result;
-		for (Size i = 0; i < R; ++i) result[i] = data[i] *= s;
-		return result;
+	constexpr Vector& operator*=(T s) {
+		for (Size i = 0; i < R; ++i) data[i] *= s;
+		return *this;
 	}
 	
-	constexpr Vector operator/=(T s) {
-		Vector result;
-		for (Size i = 0; i < R; ++i) result[i] = data[i] /= s;
-		return result;
+	constexpr Vector& operator/=(T s) {
+		for (Size i = 0; i < R; ++i) data[i] /= s;
+		return *this;
 	}
 
 	constexpr Vector operator+(const Vector& v) const {
@@ -160,34 +124,23 @@ public:
 		for (Size i = 0; i < R; ++i) data[i] /= v.data[i];
 	}
 
-	constexpr T dot(Vector v) const {
-		T result = 0;
-		for (Size i = 0; i < R; ++i) result += data[i] * v.data[i];
-		return result;
-	}
-
-	constexpr T magnitudeSq() const {
-		T result = 0;
-		for (Size i = 0; i < R; ++i) result += data[i] * data[i];
-		return result;
-	}
-
-	constexpr T magnitude() const {
-		return std::sqrt(magnitudeSq());
-	}
-
 	constexpr T& operator[](Size i) {
+		return data[i];
+	}
+
+	constexpr const T& operator[](Size i) const {
 		return data[i];
 	}
 
 	constexpr operator std::string() const {
 		std::string result;
-		std::string first(data[0]);
+		std::string first = std::to_string(data[0]);
 		result.reserve(R * (first.size() + 1) + 2);
 		result.push_back('<');
+		result += first;
 		for (Size i = 1; i < R; ++i) {
 			result.push_back(',');
-			result += std::move(std::string(data[0]));
+			result += std::move(std::to_string(data[i]));
 		}
 		result.push_back('>');
 
@@ -205,9 +158,46 @@ private:
 			data[index++] = arg[i];
 		}
 	}
-
-	T data[R];
 };
+
+template <typename T, Size R>
+static constexpr Vector<T, R> operator*(T s, const Vector<T, R>& v) {
+	return Vector(s * v.x, s * v.y);
+}
+
+template <typename T, Size R>
+static constexpr Vector<T, R> operator/(T s, const Vector<T, R>& v) {
+	return Vector(s / v.x, s / v.y);
+}
+
+template <typename T, Size R>
+static constexpr T dot(const Vector<T, R>& a, const Vector<T, R>& b) {
+	T result = 0;
+	for (Size i = 0; i < R; ++i) result += a[i] * b[i];
+	return result;
+}
+
+template <typename T, Size R>
+static constexpr T magnitudeSq(const Vector<T, R>& v) {
+	T result = 0;
+	for (Size i = 0; i < R; ++i) result += v[i] * v[i];
+	return result;
+}
+
+template <typename T, Size R>
+static constexpr T magnitude(const Vector<T, R>& v) {
+	return std::sqrt(magnitudeSq(v));
+}
+	
+template <typename T, Size R>
+constexpr Vector<T, R>& normalize(const Vector<T, R>& v) {
+	return v / magnitude(v);
+}
+
+template <typename T, Size R>
+constexpr Vector<T, R> reflect(const Vector<T, R>& v, const Vector<T, R>& n) {
+	return v - T(2) * dot(v, n) * n;
+}
 
 }
 
