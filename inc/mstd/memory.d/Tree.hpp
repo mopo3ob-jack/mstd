@@ -34,6 +34,10 @@ public:
 		return children[i];
 	}
 
+	const Tree& operator[](Size i) const {
+		return children[i];
+	}
+
 	Tree* data() {
 		return children;
 	}
