@@ -144,6 +144,9 @@ constexpr T cross(const Vector<T, 2>& a, const Vector<T, 2>& b) {
 	return a.x * b.y - a.y * b.x;
 }
 
+using Vector2f = Vector<F32, 2>;
+using Vector2d = Vector<F64, 2>;
+
 }
 
 #endif

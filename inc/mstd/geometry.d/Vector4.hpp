@@ -135,14 +135,8 @@ private:
 	}
 };
 
-template <typename T>
-constexpr Vector<T, 3> cross(const Vector<T, 3>& a, const Vector<T, 3>& b) {
-	return Vector<T, 3>(
-		a.y * b.z - a.z * b.y,
-		a.z * b.x - a.x * b.z,
-		a.x * b.y - a.y * b.x
-	);
-}
+using Vector4f = Vector<F32, 4>;
+using Vector4d = Vector<F64, 4>;
 
 }
 
