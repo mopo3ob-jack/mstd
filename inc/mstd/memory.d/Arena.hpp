@@ -115,7 +115,7 @@ public:
 		current = to;
 	}
 
-protected:
+private:
 	U8*           first;
 	U8*           last;
 	U8*           current;

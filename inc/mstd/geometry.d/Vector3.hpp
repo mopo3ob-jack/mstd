@@ -8,19 +8,6 @@ namespace mstd {
 template <typename T>
 class Vector<T, 3> {
 public:
-	union {
-		T data[3];
-		struct {
-			T x, y, z;
-		};
-		struct {
-			T i, j, k;
-		};
-		struct {
-			T r, g, b;
-		};
-	};
-
 	constexpr Vector() {}
 
 	constexpr explicit Vector(T s) {
@@ -120,6 +107,19 @@ public:
 
 		return result;
 	}
+
+	union {
+		T data[3];
+		struct {
+			T x, y, z;
+		};
+		struct {
+			T i, j, k;
+		};
+		struct {
+			T r, g, b;
+		};
+	};
 
 private:
 	constexpr void append(Size& index, const T& arg) {

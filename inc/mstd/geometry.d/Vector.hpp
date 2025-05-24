@@ -27,8 +27,6 @@ concept VectorType = IsVector<T>::value;
 template <typename T, Size R>
 class Vector {
 public:
-	T data[R];
-
 	constexpr Vector() {}
 
 	constexpr explicit Vector(T s) {
@@ -146,6 +144,8 @@ public:
 
 		return result;
 	}
+
+	T data[R];
 
 private:
 	constexpr void append(Size& index, const T& arg) {
