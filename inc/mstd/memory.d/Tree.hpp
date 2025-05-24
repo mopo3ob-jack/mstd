@@ -8,48 +8,44 @@ namespace mstd {
 template <typename T, Size degree>
 class Tree {
 public:
-	Tree() {}
+	Tree(const Tree& tree) = delete;
+	Tree& operator=(const Tree& tree) = delete;
+	
+	Tree(const Tree&& tree) = delete;
+	Tree& operator=(const Tree&& tree) = delete;
 
-	Tree(Tree&& tree) {
-		this->operator=(tree);
-	}
-
-	Tree&& operator=(Tree&& tree) {
-		this->~Tree();
-
-		this->rootNode = tree.rootNode;
-
-		tree.rootNode = nullptr;
-	}
-
-	Tree(Tree& tree, Arena& arena) {
-		this->rootNode.value = tree.rootNode.value;
-	}
-
-	Tree& operator=(Tree& tree) = delete;
-
-	struct Node {
-		Node* nodes;
-		T value;
-
-		Node& operator[](Size i) {
-			return nodes[i];
+	constexpr ~Tree() {
+		if (children) {
+			for (Size i = 0; i < degree; ++i) {
+				children[i].~Tree();
+			}
 		}
-	};
-
-	Node& root() {
-		return rootNode;
 	}
 
-	void addChildren(Node& node, Arena& arena) {
-		node.nodes = arena.reserve<Node>(degree);
+	void addChildren(Arena& arena) {
+		children = arena.reserve<Tree>(degree);
 
 		for (Size i = 0; i < degree; ++i) {
-			node[i] = { .nodes = {nullptr} };
+			children[i].children = nullptr;
 		}
 	}
+
+	Tree& operator[](Size i) {
+		return children[i];
+	}
+
+	Tree* data() {
+		return children;
+	}
+
+	const Tree* data() const {
+		return children;
+	}
+
+	T value;
+
 private:
-	Node rootNode;
+	Tree* children = nullptr;
 };
 
 }
