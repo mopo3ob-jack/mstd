@@ -190,7 +190,7 @@ static constexpr T magnitude(const Vector<T, R>& v) {
 }
 	
 template <typename T, Size R>
-constexpr Vector<T, R>& normalize(const Vector<T, R>& v) {
+constexpr Vector<T, R> normalize(const Vector<T, R>& v) {
 	return v / magnitude(v);
 }
 
