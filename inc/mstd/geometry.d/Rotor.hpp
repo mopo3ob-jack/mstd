@@ -26,13 +26,13 @@ public:
 	}
 
 	constexpr Rotor(Vector3<T> a, Vector3<T> b) {
-		Vector3<T> wedge = b.cross(a);
+		Vector3<T> wedge = cross(b, a);
 
 		yz = wedge.x;
 		zx = wedge.y;
 		xy = wedge.z;
 
-		w = a.dot(b);
+		w = dot(a, b);
 	}
 
 	constexpr Rotor operator+(const Rotor& r) const {
@@ -137,8 +137,8 @@ public:
 	T yz, zx, xy, w;
 };
 
-typedef Rotor<F32> Rotorf;
-typedef Rotor<F64> Rotord;
+using Rotorf = Rotor<F32>;
+using Rotord = Rotor<F64>;
 
 }
 
