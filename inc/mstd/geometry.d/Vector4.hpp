@@ -94,6 +94,14 @@ public:
 		return *this;
 	}
 
+	constexpr T& operator[](Size i) {
+		return data[i];
+	}
+
+	constexpr const T& operator[](Size i) const {
+		return data[i];
+	}
+
 	constexpr operator std::string() const {
 		std::string result;
 		std::string first = std::to_string(data[0]);
