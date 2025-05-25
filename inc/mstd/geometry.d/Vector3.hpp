@@ -143,8 +143,10 @@ constexpr Vector<T, 3> cross(const Vector<T, 3>& a, const Vector<T, 3>& b) {
 	);
 }
 
-using Vector3f = Vector<F32, 3>;
-using Vector3d = Vector<F64, 3>;
+template <typename T>
+using Vector3 = Vector<T, 3>;
+using Vector3f = Vector3<F32>;
+using Vector3d = Vector3<F64>;
 
 }
 

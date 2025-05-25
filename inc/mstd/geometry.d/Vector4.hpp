@@ -135,8 +135,10 @@ private:
 	}
 };
 
-using Vector4f = Vector<F32, 4>;
-using Vector4d = Vector<F64, 4>;
+template <typename T>
+using Vector4 = Vector<T, 4>;
+using Vector4f = Vector4<F32>;
+using Vector4d = Vector4<F64>;
 
 }
 

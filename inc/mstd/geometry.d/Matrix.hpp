@@ -6,7 +6,7 @@
 
 namespace mstd {
 
-template <typename T, Size C, Size R>
+template <typename T, Size C, Size R = C>
 class Matrix {
 public:
 	using Column = Vector<T, R>;
@@ -52,18 +52,6 @@ public:
 		return result;
 	}
 
-	constexpr Matrix<T, C, R> transpose() const {
-		Matrix<T, C, R> result;
-
-		for (Size r = 0; r < R; ++r) {
-			for (Size c = 0; c < C; ++c) {
-				result[c][r] = data[r][c];
-			}
-		}
-
-		return result;
-	}
-
 	constexpr Column& operator[](Size i) {
 		return data[i];
 	}
@@ -75,6 +63,33 @@ public:
 private:
 	Column data[C];
 };
+
+template <typename T, Size C, Size R = C>
+static constexpr Matrix<T, C, R> transpose(const Matrix<T, C, R>& m) {
+	Matrix<T, R, C> result;
+
+	for (Size r = 0; r < R; ++r) {
+		for (Size c = 0; c < C; ++c) {
+			result[c][r] = m[r][c];
+		}
+	}
+
+	return result;
+}
+
+template <typename T, Size S>
+static constexpr Matrix<T, S> translate(const Vector<T, S - 1>& position) {
+	Matrix<T, S> result;
+
+	result[S - 1][S - 1] = 1.0;
+
+	for (Size i = S - 2; i >= 0; ++i) {
+		result[i][i] = 1.0;
+		result[S - 1][i] = position[i];
+	}
+
+	return result;
+}
 
 }
 

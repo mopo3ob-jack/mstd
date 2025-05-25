@@ -1,19 +1,18 @@
 #ifndef MSTD_MATRIX3_HPP
 #define MSTD_MATRIX3_HPP
 
-#include "../misc.d/primitive.h"
+#include "Matrix.hpp"
 #include "Vector3.hpp"
-#include <cstring>
 #include <initializer_list>
 
 namespace mstd {
 
 template <typename T>
-class Matrix3 {
+class Matrix<T, 3> {
 public:
-	constexpr Matrix3() {}
+	constexpr Matrix() {}
 
-	constexpr explicit Matrix3(T s) {
+	constexpr explicit Matrix(T s) {
 		data[0][0] = s;
 		data[1][0] = 0;
 		data[2][0] = 0;
@@ -25,12 +24,12 @@ public:
 		data[2][2] = s;
 	}
 
-	constexpr Matrix3(std::initializer_list<Vector3<T>> init) {
+	constexpr Matrix(std::initializer_list<Vector3<T>> init) {
 		std::copy(data, data + 9, init);
 	}
 
-	constexpr Matrix3 operator*(Matrix3 m) {
-		Matrix3 result;
+	constexpr Matrix operator*(Matrix m) {
+		Matrix result;
 
 		for (U32 y = 0; y < 3; ++y) {
 			for (U32 x = 0; x < 3; ++x) {
@@ -61,44 +60,13 @@ public:
 		return data[i];
 	}
 
-	static constexpr Matrix3 rotateX(T angle) {
-		T cosA = std::cos(angle);
-		T sinA = std::sin(angle);
-
-		return {
-			{1,  0,    0},
-			{0,  cosA, -sinA},
-			{0,  sinA, cosA},
-		};
-	}
-
-	static constexpr Matrix3 rotateY(T angle) {
-		T cosA = std::cos(angle);
-		T sinA = std::sin(angle);
-
-		return {
-			{cosA,  0, sinA},
-			{0,     1, 0},
-			{-sinA, 0, cosA},
-		};
-	}
-
-	static constexpr Matrix3 rotateZ(T angle) {
-		T cosA = std::cos(angle);
-		T sinA = std::sin(angle);
-
-		return {
-			{cosA,  -sinA, 1},
-			{sinA,  cosA,  0},
-			{0,     0,     1},
-		};
-	}
-
 	T data[3][3];
 };
 
-typedef Matrix3<F32> Matrix3f;
-typedef Matrix3<F64> Matrix3d;
+template <typename T>
+using Matrix3 = Matrix<T, 3>;
+using Matrix3f = Matrix3<F32>;
+using Matrix3d = Matrix3<F64>;
 
 }
 

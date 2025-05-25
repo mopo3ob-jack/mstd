@@ -1,7 +1,7 @@
 #ifndef MSTD_MATRIX4_HPP
 #define MSTD_MATRIX4_HPP
 
-#include "../misc.d/primitive.h"
+#include "Matrix.hpp"
 #include "Vector3.hpp"
 #include "Vector4.hpp"
 #include <cstring>
@@ -10,11 +10,11 @@
 namespace mstd {
 
 template <typename T>
-class Matrix4 {
+class Matrix<T, 4> {
 public:
-	constexpr Matrix4() {}
+	constexpr Matrix() {}
 
-	constexpr explicit Matrix4(T s) {
+	constexpr explicit Matrix(T s) {
 		data[0][0] = s;
 		data[1][0] = 0;
 		data[2][0] = 0;
@@ -33,12 +33,12 @@ public:
 		data[3][3] = s;
 	}
 
-	constexpr Matrix4(std::initializer_list<Vector4<T>> init) {
+	constexpr Matrix(std::initializer_list<Vector4<T>> init) {
 		std::copy(data, data + 16, init);
 	}
 
-	constexpr Matrix4 operator*(Matrix4 m) const {
-		Matrix4 result;
+	constexpr Matrix operator*(Matrix m) const {
+		Matrix result;
 
 		for (U32 x = 0; x < 4; ++x) {
 			for (U32 y = 0; y < 4; ++y) {
@@ -66,62 +66,6 @@ public:
 		return result;
 	}
 
-	static constexpr Matrix4 perspective(T aspect, T fov, T zNear, T zFar) {
-		T length = zFar - zNear;
-
-		return {
-			{T(1) / (aspect * std::tan(fov / T(2))), 0, 0, 0},
-			{0, T(1) / (std::tan(fov / T(2))), 0, 0},
-			{0, 0, (zFar + zNear) / length, -2 * zFar * zNear / length},
-			{0, 0, 1, 0}
-		};
-	}
-
-	static constexpr Matrix4 rotateX(T angle) {
-		T cosA = std::cos(angle);
-		T sinA = std::sin(angle);
-
-		return {
-			{1,  0,    0,     0},
-			{0,  cosA, -sinA, 0},
-			{0,  sinA, cosA,  0},
-			{0,  0,    0,     1}
-		};
-	}
-
-	static constexpr Matrix4 rotateY(T angle) {
-		T cosA = std::cos(angle);
-		T sinA = std::sin(angle);
-
-		return {
-			{cosA,  0, sinA,  0},
-			{0,     1, 0,     0},
-			{-sinA, 0, cosA,  0},
-			{0,     0, 0,     1}
-		};
-	}
-
-	static constexpr Matrix4 rotateZ(T angle) {
-		T cosA = std::cos(angle);
-		T sinA = std::sin(angle);
-
-		return {
-			{cosA,  -sinA, 1, 0},
-			{sinA,  cosA,  0, 0},
-			{0,     0,     1, 0},
-			{0,     0,     0, 1}
-		};
-	}
-
-	static constexpr Matrix4 translate(Vector3<T> position) {
-		return {
-			{1, 0, 0, position.x},
-			{0, 1, 0, position.y},
-			{0, 0, 1, position.z},
-			{0, 0, 0, 1}
-		};
-	}
-
 	constexpr T* operator[](Size i) {
 		return data[i];
 	}
@@ -129,8 +73,63 @@ public:
 	T data[4][4];
 };
 
-typedef Matrix4<F32> Matrix4f;
-typedef Matrix4<F64> Matrix4d;
+template <typename T>
+static constexpr Matrix<T, 4> perspective(T aspect, T fov, T zNear, T zFar) {
+	T length = zFar - zNear;
+
+	return {
+		{T(1) / (aspect * std::tan(fov / T(2))), 0, 0, 0},
+		{0, T(1) / (std::tan(fov / T(2))), 0, 0},
+		{0, 0, (zFar + zNear) / length, -2 * zFar * zNear / length},
+		{0, 0, 1, 0}
+	};
+}
+
+/*
+template <typename T>
+static constexpr Matrix<T, 4> rotateX(T angle) {
+	T cosA = std::cos(angle);
+	T sinA = std::sin(angle);
+
+	return {
+		{1,  0,    0,     0},
+		{0,  cosA, -sinA, 0},
+		{0,  sinA, cosA,  0},
+		{0,  0,    0,     1}
+	};
+}
+
+template <typename T>
+static constexpr Matrix<T, 4> rotateY(T angle) {
+	T cosA = std::cos(angle);
+	T sinA = std::sin(angle);
+
+	return {
+		{cosA,  0, sinA,  0},
+		{0,     1, 0,     0},
+		{-sinA, 0, cosA,  0},
+		{0,     0, 0,     1}
+	};
+}
+
+template <typename T>
+static constexpr Matrix<T, 4> rotateZ(T angle) {
+	T cosA = std::cos(angle);
+	T sinA = std::sin(angle);
+
+	return {
+		{cosA,  -sinA, 1, 0},
+		{sinA,  cosA,  0, 0},
+		{0,     0,     1, 0},
+		{0,     0,     0, 1}
+	};
+}
+*/
+
+template <typename T>
+using Matrix4 = Matrix<T, 4>;
+using Matrix4f = Matrix4<F32>;
+using Matrix4d = Matrix4<F64>;
 
 }
 

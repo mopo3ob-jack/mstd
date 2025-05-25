@@ -1,31 +1,30 @@
 #ifndef MSTD_MATRIX2_HPP
 #define MSTD_MATRIX2_HPP
 
-#include "../misc.d/primitive.h"
+#include "Matrix.hpp"
 #include "Vector2.hpp"
-#include <cstring>
 #include <initializer_list>
 
 namespace mstd {
 
 template <typename T>
-class Matrix2 {
+class Matrix<T, 2> {
 public:
-	constexpr Matrix2() {}
+	constexpr Matrix() {}
 
-	constexpr explicit Matrix2(T s) {
+	constexpr explicit Matrix(T s) {
 		data[0][0] = s;
 		data[1][0] = 0;
 		data[1][1] = s;
 		data[0][1] = 0;
 	}
 
-	constexpr Matrix2(std::initializer_list<Vector2<T>> init) {
+	constexpr Matrix(std::initializer_list<Vector2<T>> init) {
 		std::copy(data, data + 4, init);
 	}
 
-	constexpr Matrix2 operator*(Matrix2 m) {
-		Matrix2 result;
+	constexpr Matrix operator*(Matrix m) {
+		Matrix result;
 
 		for (U32 y = 0; y < 2; ++y) {
 			for (U32 x = 0; x < 2; ++x) {
@@ -42,8 +41,8 @@ public:
 		return result;
 	}
 
-	constexpr Vector2<T> operator*(Vector2<T> v) const {
-		Vector2<T> result;
+	constexpr Vector<T, 2> operator*(Vector2<T> v) const {
+		Vector<T, 2> result;
 
 		result.x = data[0][0] * v.x + data[0][1] * v.y;
 		result.y = data[1][0] * v.y + data[1][1] * v.y;
@@ -55,7 +54,7 @@ public:
 		return data[i];
 	}
 
-	static constexpr Matrix2 rotateZ(T angle) {
+	static constexpr Matrix rotateZ(T angle) {
 		T cosA = std::cos(angle);
 		T sinA = std::sin(angle);
 
@@ -68,8 +67,10 @@ public:
 	T data[2][2];
 };
 
-typedef Matrix2<F32> Matrix2f;
-typedef Matrix2<F64> Matrix2d;
+template <typename T>
+using Matrix2 = Matrix<T, 2>;
+using Matrix2f = Matrix2<F32>;
+using Matrix2d = Matrix2<F32>;
 
 }
 
