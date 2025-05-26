@@ -87,10 +87,10 @@ static constexpr Matrix<T, 4> perspective(T aspect, T fov, T zNear, T zFar) {
 	T length = zFar - zNear;
 
 	return Matrix<T, 4>(
-		Vector4<T>(T(1) / (aspect * std::tan(fov / T(2))), 0, 0, 0),
-		Vector4<T>(0, T(1) / (std::tan(fov / T(2))), 0, 0),
-		Vector4<T>(0, 0, (zFar + zNear) / length, -2 * zFar * zNear / length),
-		Vector4<T>(0, 0, 1, 0)
+		Vector4<T>(T(1) / (aspect * std::tan(fov / T(2))), T(0), T(0), T(0)),
+		Vector4<T>(T(0), T(1) / (std::tan(fov / T(2))), T(0), T(0)),
+		Vector4<T>(T(0), T(0), (zFar + zNear) / length, -2 * zFar * zNear / length),
+		Vector4<T>(T(0), T(0), T(1), T(0))
 	);
 }
 
