@@ -100,7 +100,7 @@ public:
 	}
 
 	constexpr operator Matrix3<T>() const {
-		auto transform = [this](T* data, T tx, T ty, T tz, T txyz) {
+		auto transform = [this](Vector3<T> data, T tx, T ty, T tz, T txyz) {
 			data[0] = w * tx + xy * ty + yz * txyz - zx * tz;
 			data[1] = w * ty + yz * tz + zx * txyz - xy * tx;
 			data[2] = w * tz + zx * tx + xy * txyz - yz * ty;
@@ -115,7 +115,7 @@ public:
 	}
 
 	constexpr operator Matrix4<T>() const {
-		auto transform = [this](T* data, T tx, T ty, T tz, T txyz) {
+		auto transform = [this](Vector4<T> data, T tx, T ty, T tz, T txyz) {
 			data[0] = w * tx + xy * ty + yz * txyz - zx * tz;
 			data[1] = w * ty + yz * tz + zx * txyz - xy * tx;
 			data[2] = w * tz + zx * tx + xy * txyz - yz * ty;
