@@ -83,7 +83,7 @@ static constexpr Matrix<T, S> translate(const Vector<T, S - 1>& position) {
 
 	result[S - 1][S - 1] = 1.0;
 
-	for (Size i = S - 2; i >= 0; ++i) {
+	for (Size i = S - 2; i >= 0; --i) {
 		result[i][i] = 1.0;
 		result[S - 1][i] = position[i];
 	}
