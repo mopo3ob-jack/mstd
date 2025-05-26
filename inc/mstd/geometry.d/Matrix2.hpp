@@ -52,7 +52,11 @@ public:
 		return result;
 	}
 
-	constexpr T* operator[](Size i) {
+	constexpr Column& operator[](Size i) {
+		return data[i];
+	}
+
+	constexpr const Column& operator[](Size i) const {
 		return data[i];
 	}
 
