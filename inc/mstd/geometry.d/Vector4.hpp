@@ -29,7 +29,7 @@ public:
 	template <typename... Args>
 	requires (
 		((std::is_convertible_v<std::decay_t<Args>, T> || VectorType<std::decay_t<Args>>) && ...)
-		&& (totalArgSize<Args...> == 3)
+		&& (totalArgSize<Args...> == 4)
 	)
 	constexpr Vector(Args&&... args) {
 		Size index = 0;
