@@ -46,18 +46,19 @@ public:
 		std::copy(data, data + 16, init);
 	}
 
-	constexpr Matrix operator*(Matrix m) const {
-		Matrix result;
+	template <Size N>
+	constexpr Matrix operator*(const Matrix<T, N, 4>& m) const {
+		Matrix<T, N, 4> result;
 
-		for (U32 x = 0; x < 4; ++x) {
-			for (U32 y = 0; y < 4; ++y) {
+		for (Size c = 0; c < 4; ++c) {
+			for (Size r = 0; r < 4; ++r) {
 				T sum = 0;
 
-				for (U32 i = 0; i < 4; ++i) {
-					sum += data[y][i] * m.data[i][x];
+				for (Size i = 0; i < N; ++i) {
+					sum += data[i][r] * m.data[c][i];
 				}
 
-				result.data[y][x] = sum;
+				result.data[c][r] = sum;
 			}
 		}
 

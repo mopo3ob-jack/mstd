@@ -30,18 +30,19 @@ public:
 		std::copy(data, data + 9, init);
 	}
 
-	constexpr Matrix operator*(Matrix m) {
-		Matrix result;
+	template <Size N>
+	constexpr Matrix operator*(const Matrix<T, N, 3>& m) const {
+		Matrix<T, N, 3> result;
 
-		for (U32 y = 0; y < 3; ++y) {
-			for (U32 x = 0; x < 3; ++x) {
+		for (Size c = 0; c < 3; ++c) {
+			for (Size r = 0; r < 3; ++r) {
 				T sum = 0;
 
-				for (U32 i = 0; i < 2; ++i) {
-					sum += data[y][i] * m.data[i][x];
+				for (Size i = 0; i < N; ++i) {
+					sum += data[i][r] * m.data[c][i];
 				}
 
-				result.data[y][x] = sum;
+				result.data[c][r] = sum;
 			}
 		}
 

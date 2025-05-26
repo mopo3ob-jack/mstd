@@ -81,12 +81,20 @@ template <typename T, Size S>
 static constexpr Matrix<T, S> translate(const Vector<T, S - 1>& position) {
 	Matrix<T, S> result;
 
-	result[S - 1][S - 1] = 1.0;
-
-	for (Size i = 0; i < S - 1; ++i) {
-		result[i][i] = 1.0;
-		result[S - 1][i] = position[i];
+	for (Size c = 0; c < S - 1; ++c) {
+		for (Size r = 0; r < c; ++r) {
+			result[c][r] = T(0);
+		}
+		result[c][c] = T(1);
+		for (Size r = c + 1; r < S; ++r) {
+			result[c][r] = T(0);
+		}
 	}
+
+	for (Size r = 0; r < S; ++r) {
+		result[S - 1][r] = position[r];
+	}
+	result[S - 1][S - 1] = T(1);
 
 	return result;
 }
