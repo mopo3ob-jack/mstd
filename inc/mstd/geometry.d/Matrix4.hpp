@@ -35,6 +35,13 @@ public:
 		data[3][3] = s;
 	}
 
+	constexpr Matrix(Vector4<T> a, Vector4<T> b, Vector4<T> c, Vector4<T> d) {
+		data[0] = a;
+		data[1] = b;
+		data[2] = c;
+		data[3] = d;
+	}
+
 	constexpr Matrix(std::initializer_list<Vector4<T>> init) {
 		std::copy(data, data + 16, init);
 	}
@@ -79,12 +86,12 @@ template <typename T>
 static constexpr Matrix<T, 4> perspective(T aspect, T fov, T zNear, T zFar) {
 	T length = zFar - zNear;
 
-	return Matrix<T, 4>({
-		Vector<T, 4>(T(1) / (aspect * std::tan(fov / T(2))), 0, 0, 0),
-		Vector<T, 4>(0, T(1) / (std::tan(fov / T(2))), 0, 0),
-		Vector<T, 4>(0, 0, (zFar + zNear) / length, -2 * zFar * zNear / length),
-		Vector<T, 4>(0, 0, 1, 0)
-	});
+	return Matrix<T, 4>(
+		Vector4<T>(T(1) / (aspect * std::tan(fov / T(2))), 0, 0, 0),
+		Vector4<T>(0, T(1) / (std::tan(fov / T(2))), 0, 0),
+		Vector4<T>(0, 0, (zFar + zNear) / length, -2 * zFar * zNear / length),
+		Vector4<T>(0, 0, 1, 0)
+	);
 }
 
 /*
