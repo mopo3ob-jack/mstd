@@ -10,6 +10,8 @@ namespace mstd {
 template <typename T>
 class Matrix<T, 2> {
 public:
+	using Column = Vector<T, 2>;
+
 	constexpr Matrix() {}
 
 	constexpr explicit Matrix(T s) {
@@ -64,7 +66,7 @@ public:
 		};
 	}
 
-	T data[2][2];
+	Column data[2];
 };
 
 template <typename T>
