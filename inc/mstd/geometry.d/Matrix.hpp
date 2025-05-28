@@ -77,7 +77,8 @@ static constexpr Matrix<T, C, R> transpose(const Matrix<T, C, R>& m) {
 	return result;
 }
 
-template <VectorType V>
+template <typename V>
+requires VectorType<std::decay_t<V>>
 static constexpr Matrix<typename V::ComponentType, V::size> translate(const V& position) {
 	using T = V::ComponentType;
 	constexpr Size S = V::size;
