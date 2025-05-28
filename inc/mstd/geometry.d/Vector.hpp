@@ -33,6 +33,8 @@ public:
 		for (Size i = 0; i < R; ++i) data[i] = s;
 	}
 
+	using ComponentType = T;
+
 	template <typename U>
 	static constexpr Size size = 1;
 
@@ -41,7 +43,7 @@ public:
 
 	template <typename... Args>
 	static constexpr Size totalArgSize = (size<std::decay_t<Args>> + ... + 0);
-	
+
 	template <typename... Args>
 	requires (
 		((std::is_convertible_v<std::decay_t<Args>, T> || VectorType<std::decay_t<Args>>) && ...)
