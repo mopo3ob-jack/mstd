@@ -107,10 +107,10 @@ public:
 	constexpr operator std::string() const {
 		std::string result;
 		std::string first = std::to_string(data[0]);
-		result.reserve(3 * (first.size() + 1) + 2);
+		result.reserve(4 * (first.size() + 1) + 2);
 		result.push_back('<');
 		result += first;
-		for (Size i = 1; i < 3; ++i) {
+		for (Size i = 1; i < 4; ++i) {
 			result.push_back(',');
 			result += std::move(std::to_string(data[i]));
 		}
