@@ -78,10 +78,10 @@ static constexpr Matrix<T, C, R> transpose(const Matrix<T, C, R>& m) {
 }
 
 template <typename T, Size S>
-static constexpr Matrix<T, S> translate(const Vector<T, S>& position) {
-	Matrix<T, S> result;
+static constexpr Matrix<T, S + 1> translate(const Vector<T, S>& position) {
+	Matrix<T, S + 1> result;
 
-	for (Size c = 0; c < S - 1; ++c) {
+	for (Size c = 0; c < S; ++c) {
 		for (Size r = 0; r < c; ++r) {
 			result[c][r] = T(0);
 		}
@@ -92,9 +92,9 @@ static constexpr Matrix<T, S> translate(const Vector<T, S>& position) {
 	}
 
 	for (Size r = 0; r < S; ++r) {
-		result[S - 1][r] = position[r];
+		result[S][r] = position[r];
 	}
-	result[S - 1][S - 1] = T(1);
+	result[S][S] = T(1);
 
 	return result;
 }

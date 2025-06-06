@@ -16,8 +16,6 @@ public:
 		z = s;
 	}
 
-	using ComponentType = T;
-
 	template <typename U>
 	static constexpr Size size = 1;
 
