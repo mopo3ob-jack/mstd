@@ -140,7 +140,7 @@ private:
 	}
 
 	template <Size S>
-	constexpr void append(Size& index, Vector<T, S>& arg) {
+	constexpr void append(Size& index, const Vector<T, S>& arg) {
 		for (Size i = 0; i < S; ++i) {
 			data[index++] = arg[i];
 		}

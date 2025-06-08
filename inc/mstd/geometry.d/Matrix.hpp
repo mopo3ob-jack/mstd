@@ -86,15 +86,12 @@ static constexpr Matrix<T, S + 1> translate(const Vector<T, S>& position) {
 			result[c][r] = T(0);
 		}
 		result[c][c] = T(1);
-		for (Size r = c + 1; r < S; ++r) {
+		for (Size r = c + 1; r < S + 1; ++r) {
 			result[c][r] = T(0);
 		}
 	}
 
-	for (Size r = 0; r < S; ++r) {
-		result[S][r] = position[r];
-	}
-	result[S][S] = T(1);
+	result[S] = Vector<T, S + 1>(position, 1.0f);
 
 	return result;
 }
