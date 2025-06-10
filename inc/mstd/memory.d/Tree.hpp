@@ -8,6 +8,8 @@ namespace mstd {
 template <typename T, Size degree>
 class Tree {
 public:
+	Tree() {}
+
 	Tree(const Tree& tree) = delete;
 	Tree& operator=(const Tree& tree) = delete;
 	
