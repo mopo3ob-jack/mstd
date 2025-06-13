@@ -106,6 +106,11 @@ public:
 		return result;
 	}
 
+	template <typename T>
+	T* tell() const {
+		return (T*)current;
+	}
+
 	void clear() {
 		current = first;
 	}
