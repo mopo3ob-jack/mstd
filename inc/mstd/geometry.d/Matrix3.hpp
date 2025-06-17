@@ -67,6 +67,10 @@ public:
 		return data[i];
 	}
 
+	constexpr Bool operator==(const Matrix& v) const {
+		return data == v.data;
+	}
+
 	std::array<Column, 2> data;
 };
 

@@ -100,6 +100,10 @@ public:
 		return data[i];
 	}
 
+	constexpr Bool operator==(const Vector& v) const {
+		return data == v.data;
+	}
+
 	constexpr operator std::string() const {
 		std::string result;
 		std::string first = std::to_string(data[0]);

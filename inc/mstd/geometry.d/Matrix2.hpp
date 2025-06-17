@@ -61,6 +61,10 @@ public:
 		return data[i];
 	}
 
+	constexpr Bool operator==(const Matrix& v) const {
+		return data == v.data;
+	}
+
 	static constexpr Matrix rotateZ(T angle) {
 		T cosA = std::cos(angle);
 		T sinA = std::sin(angle);

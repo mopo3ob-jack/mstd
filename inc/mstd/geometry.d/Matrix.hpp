@@ -60,6 +60,10 @@ public:
 		return data[i];
 	}
 
+	constexpr Bool operator==(const Matrix& v) const {
+		return data == v.data;
+	}
+
 private:
 	std::array<Column, C> data;
 };
