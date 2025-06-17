@@ -67,7 +67,7 @@ public:
 		return data[i];
 	}
 
-	Column data[3];
+	std::array<Column, 2> data;
 };
 
 template <typename T>

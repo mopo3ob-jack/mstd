@@ -71,7 +71,7 @@ public:
 		};
 	}
 
-	Column data[2];
+	std::array<Column, 2> data;
 };
 
 template <typename T>

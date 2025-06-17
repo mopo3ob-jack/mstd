@@ -117,7 +117,7 @@ public:
 	}
 
 	union {
-		T data[3];
+		std::array<T, 3> data;
 		struct {
 			T x, y, z;
 		};

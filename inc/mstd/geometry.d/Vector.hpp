@@ -2,13 +2,11 @@
 #define MSTD_VECTOR_HPP
 
 #include "../misc.d/primitive.h"
-#include "../misc.d/errorText.h"
-#include <initializer_list>
 #include <utility>
 #include <cmath>
-#include <iostream>
 #include <string>
 #include <type_traits>
+#include <array>
 
 namespace mstd {
 
@@ -147,7 +145,7 @@ public:
 		return result;
 	}
 
-	T data[R];
+	std::array<T, R> data[R];
 
 private:
 	constexpr void append(Size& index, const T& arg) {
