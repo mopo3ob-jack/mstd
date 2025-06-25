@@ -149,7 +149,7 @@ public:
 		return result;
 	}
 
-	std::array<T, R> data[R];
+	T data[R];
 
 private:
 	constexpr void append(Size& index, const T& arg) {

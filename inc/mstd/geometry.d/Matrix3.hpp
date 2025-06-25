@@ -71,7 +71,7 @@ public:
 		return data == v.data;
 	}
 
-	std::array<Column, 2> data;
+	Column data[3];
 };
 
 template <typename T>

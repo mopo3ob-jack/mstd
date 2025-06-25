@@ -88,7 +88,7 @@ public:
 		return data == v.data;
 	}
 
-	std::array<Column, 4> data;
+	Column data[4];
 };
 
 template <typename T>

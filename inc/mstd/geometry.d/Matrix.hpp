@@ -65,7 +65,7 @@ public:
 	}
 
 private:
-	std::array<Column, C> data;
+	Column data[C];
 };
 
 template <typename T, Size C, Size R = C>
