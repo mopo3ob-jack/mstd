@@ -134,6 +134,10 @@ public:
 		return std::equal(data, data + R, v.data);
 	}
 
+	constexpr Bool operator!=(const Vector& v) const {
+		return !std::equal(data, data + R, v.data);
+	}
+
 	constexpr operator std::string() const {
 		std::string result;
 		std::string first = std::to_string(data[0]);

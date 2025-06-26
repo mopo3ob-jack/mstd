@@ -88,6 +88,10 @@ public:
 		return std::equal(data, data + 4, v.data);
 	}
 
+	constexpr Bool operator!=(const Matrix& v) const {
+		return !std::equal(data, data + 4, v.data);
+	}
+
 	Column data[4];
 };
 

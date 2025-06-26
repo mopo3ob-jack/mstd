@@ -65,6 +65,10 @@ public:
 		return std::equal(data, data + 2, v.data);
 	}
 
+	constexpr Bool operator!=(const Matrix& v) const {
+		return !std::equal(data, data + 2, v.data);
+	}
+
 	static constexpr Matrix rotateZ(T angle) {
 		T cosA = std::cos(angle);
 		T sinA = std::sin(angle);

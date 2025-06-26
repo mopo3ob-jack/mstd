@@ -64,6 +64,10 @@ public:
 		return std::equal(data, data + C, v.data);
 	}
 
+	constexpr Bool operator!=(const Matrix& v) const {
+		return !std::equal(data, data + C, v.data);
+	}
+
 private:
 	Column data[C];
 };

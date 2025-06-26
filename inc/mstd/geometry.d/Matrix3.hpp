@@ -71,6 +71,10 @@ public:
 		return std::equal(data, data + 3, v.data);
 	}
 
+	constexpr Bool operator!=(const Matrix& v) const {
+		return !std::equal(data, data + 3, v.data);
+	}
+
 	Column data[3];
 };
 
