@@ -62,7 +62,7 @@ public:
 	}
 
 	constexpr Bool operator==(const Matrix& v) const {
-		return data == v.data;
+		return std::equal(data, data + 2, v.data);
 	}
 
 	static constexpr Matrix rotateZ(T angle) {

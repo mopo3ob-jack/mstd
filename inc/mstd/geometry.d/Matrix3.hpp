@@ -68,7 +68,7 @@ public:
 	}
 
 	constexpr Bool operator==(const Matrix& v) const {
-		return data == v.data;
+		return std::equal(data, data + 3, v.data);
 	}
 
 	Column data[3];

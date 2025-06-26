@@ -131,7 +131,7 @@ public:
 	}
 
 	constexpr Bool operator==(const Vector& v) const {
-		return data == v.data;
+		return std::equal(data, data + R, v.data);
 	}
 
 	constexpr operator std::string() const {
