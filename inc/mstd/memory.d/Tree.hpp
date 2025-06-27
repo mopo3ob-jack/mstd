@@ -10,12 +10,6 @@ class Tree {
 public:
 	Tree() {}
 
-	Tree(const Tree& tree) = delete;
-	Tree& operator=(const Tree& tree) = delete;
-	
-	Tree(const Tree&& tree) = delete;
-	Tree& operator=(const Tree&& tree) = delete;
-
 	constexpr ~Tree() {
 		if (children) {
 			for (Size i = 0; i < degree; ++i) {
