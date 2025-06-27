@@ -117,7 +117,7 @@ public:
 
 	template <typename T>
 	void truncate(T* to) {
-		current = to;
+		current = (U8*)to;
 	}
 
 private:
