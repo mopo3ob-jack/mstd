@@ -22,7 +22,7 @@ public:
 		return children[i];
 	}
 
-	const Tree*& operator[](Size i) const {
+	const Tree* const& operator[](Size i) const {
 		return children[i];
 	}
 
@@ -30,7 +30,7 @@ public:
 		return children;
 	}
 
-	const Tree** data() const {
+	const Tree* const* data() const {
 		return children;
 	}
 
