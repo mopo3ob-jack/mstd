@@ -37,7 +37,7 @@ public:
 	T value;
 
 private:
-	Tree* children[degree];
+	Tree* children[degree] = { nullptr };
 };
 
 }
