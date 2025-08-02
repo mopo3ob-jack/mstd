@@ -41,7 +41,7 @@ typedef float       F32;
 typedef double      F64;
 
 // Boolean type
-typedef uint8_t     Bool;
+typedef bool        Bool;
 
 #ifdef __cplusplus
 #ifndef MSTD_SUPRESS_PRIMITIVE_SIZE_GURANTEE
