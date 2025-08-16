@@ -68,6 +68,17 @@ public:
 		return !std::equal(data, data + C, v.data);
 	}
 
+	template <typename U>
+	constexpr operator Matrix<U, C, R>() const {
+		Matrix<U, C, R> result;
+
+		for (Size i = 0; i < C; ++i) {
+			result[i] = Vector<U, R>(data[i]);
+		}
+
+		return result;
+	}
+
 private:
 	Column data[C];
 };

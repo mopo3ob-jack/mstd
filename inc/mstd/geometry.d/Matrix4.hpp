@@ -92,6 +92,16 @@ public:
 		return !std::equal(data, data + 4, v.data);
 	}
 
+	template <typename U>
+	constexpr operator Matrix<U, 4, 4>() const {
+		return {
+			Vector<U, 4>(data[0]),
+			Vector<U, 4>(data[1]),
+			Vector<U, 4>(data[2]),
+			Vector<U, 4>(data[4]),
+		}
+	}
+
 	Column data[4];
 };
 
@@ -106,7 +116,6 @@ static constexpr Matrix<T, 4> perspective(T aspect, T fov, T zNear, T zFar) {
 		Vector4<T>(T(0), T(0), -zFar * zNear / length, T(0))
 	);
 }
-
 
 template <typename T>
 static constexpr Matrix<T, 4> rotateX(T angle) {
@@ -146,7 +155,6 @@ static constexpr Matrix<T, 4> rotateZ(T angle) {
 		{0,     0,     0, 1}
 	};
 }
-
 
 template <typename T>
 using Matrix4 = Matrix<T, 4>;

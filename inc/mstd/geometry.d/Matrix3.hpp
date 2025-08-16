@@ -75,6 +75,15 @@ public:
 		return !std::equal(data, data + 3, v.data);
 	}
 
+	template <typename U>
+	constexpr operator Matrix<U, 3, 3>() const {
+		return {
+			Vector<U, 3>(data[0]),
+			Vector<U, 3>(data[1]),
+			Vector<U, 3>(data[2])
+		}
+	}
+
 	Column data[3];
 };
 

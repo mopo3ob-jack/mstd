@@ -138,6 +138,17 @@ public:
 		return !std::equal(data, data + R, v.data);
 	}
 
+	template <typename U>
+	constexpr operator Vector<U, R>() const {
+		Vector<U, R> result;
+
+		for (Size i = 0; i < R; ++i) {
+			result[i] = U(data[i]);
+		}
+
+		return result;
+	}
+
 	constexpr operator std::string() const {
 		std::string result;
 		std::string first = std::to_string(data[0]);

@@ -69,18 +69,27 @@ public:
 		return !std::equal(data, data + 2, v.data);
 	}
 
-	static constexpr Matrix rotateZ(T angle) {
-		T cosA = std::cos(angle);
-		T sinA = std::sin(angle);
-
+	template <typename U>
+	constexpr operator Matrix<U, 2, 2>() const {
 		return {
-			{cosA,  -sinA},
-			{sinA,  cosA},
-		};
+			Vector<U, 2>(data[0]),
+			Vector<U, 2>(data[1])
+		}
 	}
 
 	Column data[2];
 };
+
+template <typename T>
+static constexpr Matrix<T, 2> rotateZ(T angle) {
+	T cosA = std::cos(angle);
+	T sinA = std::sin(angle);
+
+	return {
+		{cosA,  -sinA},
+		{sinA,  cosA}
+	};
+}
 
 template <typename T>
 using Matrix2 = Matrix<T, 2>;

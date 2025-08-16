@@ -109,6 +109,11 @@ public:
 		return !std::equal(data, data + 3, v.data);
 	}
 
+	template <typename U>
+	constexpr operator Vector<U, 3>() const {
+		return Vector<U, 3>(U(x), U(y), U(z));
+	}
+
 	constexpr operator std::string() const {
 		std::string result;
 		std::string first = std::to_string(data[0]);
