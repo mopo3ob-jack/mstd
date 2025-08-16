@@ -107,7 +107,7 @@ static constexpr Matrix<T, 4> perspective(T aspect, T fov, T zNear, T zFar) {
 	);
 }
 
-/*
+
 template <typename T>
 static constexpr Matrix<T, 4> rotateX(T angle) {
 	T cosA = std::cos(angle);
@@ -140,13 +140,13 @@ static constexpr Matrix<T, 4> rotateZ(T angle) {
 	T sinA = std::sin(angle);
 
 	return {
-		{cosA,  -sinA, 1, 0},
+		{cosA,  -sinA, 0, 0},
 		{sinA,  cosA,  0, 0},
 		{0,     0,     1, 0},
 		{0,     0,     0, 1}
 	};
 }
-*/
+
 
 template <typename T>
 using Matrix4 = Matrix<T, 4>;
