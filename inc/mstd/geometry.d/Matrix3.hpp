@@ -81,7 +81,7 @@ public:
 			Vector<U, 3>(data[0]),
 			Vector<U, 3>(data[1]),
 			Vector<U, 3>(data[2])
-		}
+		};
 	}
 
 	Column data[3];

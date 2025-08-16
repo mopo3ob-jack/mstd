@@ -99,7 +99,7 @@ public:
 			Vector<U, 4>(data[1]),
 			Vector<U, 4>(data[2]),
 			Vector<U, 4>(data[4]),
-		}
+		};
 	}
 
 	Column data[4];

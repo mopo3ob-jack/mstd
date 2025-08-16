@@ -74,7 +74,7 @@ public:
 		return {
 			Vector<U, 2>(data[0]),
 			Vector<U, 2>(data[1])
-		}
+		};
 	}
 
 	Column data[2];
