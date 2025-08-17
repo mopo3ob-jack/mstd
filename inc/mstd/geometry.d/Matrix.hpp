@@ -13,7 +13,7 @@ public:
 
 	template <typename U>
 	constexpr explicit Matrix(Matrix<U, C, R> m) {
-		for (Size i = 0; i < C; ++i) data[i] = m[i];
+		for (Size i = 0; i < C; ++i) data[i] = Vector<T, R>(m[i]);
 	}
 
 	using Column = Vector<T, R>;

@@ -23,7 +23,7 @@ public:
 
 	template <typename U>
 	constexpr explicit Matrix(Matrix<U, 2> m) {
-		for (Size i = 0; i < 2; ++i) data[i] = m[i];
+		for (Size i = 0; i < 2; ++i) data[i] = Vector2<T>(m[i]);
 	}
 
 	constexpr Matrix(std::initializer_list<Vector2<T>> init) {
@@ -82,10 +82,10 @@ static constexpr Matrix<T, 2> rotateZ(T angle) {
 	T cosA = std::cos(angle);
 	T sinA = std::sin(angle);
 
-	return {
+	return Matrix<T, 2>(
 		{cosA,  -sinA},
 		{sinA,  cosA}
-	};
+	);
 }
 
 template <typename T>

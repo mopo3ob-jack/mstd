@@ -28,7 +28,7 @@ public:
 
 	template <typename U>
 	constexpr explicit Matrix(Matrix<U, 3> m) {
-		for (Size i = 0; i < 3; ++i) data[i] = m[i];
+		for (Size i = 0; i < 3; ++i) data[i] = Vector3<T>(m[i]);
 	}
 
 	constexpr Matrix(std::initializer_list<Vector3<T>> init) {

@@ -37,7 +37,7 @@ public:
 
 	template <typename U>
 	constexpr explicit Matrix(Matrix<U, 4> m) {
-		for (Size i = 0; i < 4; ++i) data[i] = m[i];
+		for (Size i = 0; i < 4; ++i) data[i] = Vector4<T>(m[i]);
 	}
 
 	constexpr Matrix(Vector4<T> a, Vector4<T> b, Vector4<T> c, Vector4<T> d) {
@@ -117,12 +117,12 @@ static constexpr Matrix<T, 4> rotateX(T angle) {
 	T cosA = std::cos(angle);
 	T sinA = std::sin(angle);
 
-	return {
+	return Matrix<T, 4>(
 		{1,  0,    0,     0},
 		{0,  cosA, -sinA, 0},
 		{0,  sinA, cosA,  0},
 		{0,  0,    0,     1}
-	};
+	);
 }
 
 template <typename T>
@@ -130,12 +130,12 @@ static constexpr Matrix<T, 4> rotateY(T angle) {
 	T cosA = std::cos(angle);
 	T sinA = std::sin(angle);
 
-	return {
+	return Matrix<T, 4>(
 		{cosA,  0, sinA,  0},
 		{0,     1, 0,     0},
 		{-sinA, 0, cosA,  0},
 		{0,     0, 0,     1}
-	};
+	);
 }
 
 template <typename T>
@@ -143,12 +143,12 @@ static constexpr Matrix<T, 4> rotateZ(T angle) {
 	T cosA = std::cos(angle);
 	T sinA = std::sin(angle);
 
-	return {
+	return Matrix<T, 4>(
 		{cosA,  -sinA, 0, 0},
 		{sinA,  cosA,  0, 0},
 		{0,     0,     1, 0},
 		{0,     0,     0, 1}
-	};
+	);
 }
 
 template <typename T>
