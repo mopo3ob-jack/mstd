@@ -26,6 +26,11 @@ public:
 		data[2][2] = s;
 	}
 
+	template <typename U>
+	constexpr explicit Matrix(Matrix<U, 3> m) {
+		for (Size i = 0; i < 3; ++i) data[i] = m[i];
+	}
+
 	constexpr Matrix(std::initializer_list<Vector3<T>> init) {
 		std::copy(data, data + 9, init);
 	}
@@ -73,15 +78,6 @@ public:
 
 	constexpr Bool operator!=(const Matrix& v) const {
 		return !std::equal(data, data + 3, v.data);
-	}
-
-	template <typename U>
-	constexpr operator Matrix<U, 3, 3>() const {
-		return {
-			Vector<U, 3>(data[0]),
-			Vector<U, 3>(data[1]),
-			Vector<U, 3>(data[2])
-		};
 	}
 
 	Column data[3];

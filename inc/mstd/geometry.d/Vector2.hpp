@@ -16,6 +16,12 @@ public:
 	}
 
 	template <typename U>
+	constexpr explicit Vector(Vector<U, 2> v) {
+		x = v.x;
+		y = v.y;
+	}
+
+	template <typename U>
 	static constexpr Size size = 1;
 
 	template <typename U, Size S>
@@ -106,11 +112,6 @@ public:
 
 	constexpr Bool operator!=(const Vector& v) const {
 		return !std::equal(data, data + 2, v.data);
-	}
-
-	template <typename U>
-	constexpr operator Vector<U, 2>() const {
-		return Vector<U, 2>(U(x), U(y));
 	}
 
 	constexpr operator std::string() const {

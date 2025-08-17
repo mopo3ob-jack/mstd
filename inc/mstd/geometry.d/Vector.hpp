@@ -31,6 +31,11 @@ public:
 		for (Size i = 0; i < R; ++i) data[i] = s;
 	}
 
+	template <typename U>
+	constexpr explicit Vector(Vector<U, R> v) {
+		for (Size i = 0; i < R; ++i) data[i] = v[i];
+	}
+
 	using ComponentType = T;
 
 	template <typename U>
@@ -136,17 +141,6 @@ public:
 
 	constexpr Bool operator!=(const Vector& v) const {
 		return !std::equal(data, data + R, v.data);
-	}
-
-	template <typename U>
-	constexpr operator Vector<U, R>() const {
-		Vector<U, R> result;
-
-		for (Size i = 0; i < R; ++i) {
-			result[i] = U(data[i]);
-		}
-
-		return result;
 	}
 
 	constexpr operator std::string() const {

@@ -9,6 +9,13 @@ namespace mstd {
 template <typename T, Size C, Size R = C>
 class Matrix {
 public:
+	Matrix() {}
+
+	template <typename U>
+	constexpr explicit Matrix(Matrix<U, C, R> m) {
+		for (Size i = 0; i < C; ++i) data[i] = m[i];
+	}
+
 	using Column = Vector<T, R>;
 
 	constexpr Matrix operator+(const Matrix& m) const {
@@ -66,17 +73,6 @@ public:
 
 	constexpr Bool operator!=(const Matrix& v) const {
 		return !std::equal(data, data + C, v.data);
-	}
-
-	template <typename U>
-	constexpr operator Matrix<U, C, R>() const {
-		Matrix<U, C, R> result;
-
-		for (Size i = 0; i < C; ++i) {
-			result[i] = Vector<U, R>(data[i]);
-		}
-
-		return result;
 	}
 
 private:

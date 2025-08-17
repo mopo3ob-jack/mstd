@@ -35,6 +35,11 @@ public:
 		data[3][3] = s;
 	}
 
+	template <typename U>
+	constexpr explicit Matrix(Matrix<U, 4> m) {
+		for (Size i = 0; i < 4; ++i) data[i] = m[i];
+	}
+
 	constexpr Matrix(Vector4<T> a, Vector4<T> b, Vector4<T> c, Vector4<T> d) {
 		data[0] = a;
 		data[1] = b;
@@ -90,16 +95,6 @@ public:
 
 	constexpr Bool operator!=(const Matrix& v) const {
 		return !std::equal(data, data + 4, v.data);
-	}
-
-	template <typename U>
-	constexpr operator Matrix<U, 4, 4>() const {
-		return {
-			Vector<U, 4>(data[0]),
-			Vector<U, 4>(data[1]),
-			Vector<U, 4>(data[2]),
-			Vector<U, 4>(data[4]),
-		};
 	}
 
 	Column data[4];
