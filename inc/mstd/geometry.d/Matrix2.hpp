@@ -78,17 +78,6 @@ public:
 };
 
 template <typename T>
-static constexpr Matrix<T, 2> rotateZ(T angle) {
-	T cosA = std::cos(angle);
-	T sinA = std::sin(angle);
-
-	return Matrix<T, 2>(
-		{cosA,  -sinA},
-		{sinA,  cosA}
-	);
-}
-
-template <typename T>
 using Matrix2 = Matrix<T, 2>;
 using Matrix2f = Matrix2<F32>;
 using Matrix2d = Matrix2<F32>;
