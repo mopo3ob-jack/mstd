@@ -101,14 +101,14 @@ public:
 };
 
 template <typename T>
-static constexpr Matrix<T, 4> perspective(T aspect, T fov, T zNear, T zFar) {
-	T length = zFar - zNear;
+static constexpr Matrix<T, 4> perspective(T aspect, T fov, T yNear, T yFar) {
+	T length = yFar - yNear;
 
 	return Matrix<T, 4>(
 		Vector4<T>(T(1) / (aspect * std::tan(fov / T(2))), T(0), T(0), T(0)),
+		Vector4<T>(T(0), T(0), (yFar + yNear) / length, T(1)),
 		Vector4<T>(T(0), T(1) / (std::tan(fov / T(2))), T(0), T(0)),
-		Vector4<T>(T(0), T(0), zFar / length, T(1)),
-		Vector4<T>(T(0), T(0), -zFar * zNear / length, T(0))
+		Vector4<T>(T(0), T(0), (- 2 * yFar * yNear) / length, T(0))
 	);
 }
 
