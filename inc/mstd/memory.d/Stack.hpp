@@ -43,7 +43,7 @@ public:
 		*current = t;
 	}
 
-	T& pop() {
+	T pop() {
 		--current;
 		return *current;
 	}
