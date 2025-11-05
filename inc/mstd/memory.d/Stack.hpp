@@ -44,8 +44,9 @@ public:
 	}
 
 	T pop() {
+		T* result = current;
 		--current;
-		return *current;
+		return *result;
 	}
 
 	T& top() {
