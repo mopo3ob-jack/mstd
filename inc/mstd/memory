@@ -5,6 +5,7 @@
 #include "memory.d/Arena.hpp"
 #include "memory.d/Tree.hpp"
 #include "memory.d/DynamicTree.hpp"
+#include "memory.d/Stack.hpp"
 #include "memory.d/prefetch.hpp"
 
 #endif
