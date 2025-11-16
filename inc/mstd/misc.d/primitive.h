@@ -19,6 +19,7 @@ namespace mstd {
 #endif
 
 typedef char        C8;
+typedef wchar_t     Wide;
 typedef char16_t    C16;
 typedef char32_t    C32;
 
