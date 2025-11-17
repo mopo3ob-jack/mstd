@@ -85,7 +85,13 @@ public:
 	}
 
 	template <typename T>
+	[[deprecated("Use append(const T* data, Size count, Size alignment) instead")]]
 	T* append(Size count, const T* data, Size alignment = alignof(T)) {
+		return append(data, count, alignment);
+	}
+
+	template <typename T>
+	T* append(const T* data, Size count, Size alignment = alignof(T)) {
 		current += (Size)current % alignment;
 		T* result = (T*)current;
 		Size size = count * sizeof(T);
