@@ -35,7 +35,7 @@ typedef uint16_t    U16;
 typedef uint32_t    U32;
 typedef uint64_t    U64;
 typedef size_t      Size;
-typedef size_t      Status;
+typedef uint32_t    Status;
 
 // Floating point types
 typedef float       F32;
