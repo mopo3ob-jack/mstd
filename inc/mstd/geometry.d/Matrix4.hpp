@@ -12,7 +12,7 @@ namespace mstd {
 template <typename T>
 class Matrix<T, 4> {
 public:
-	using Column = Vector<T, 4>;
+	using Column = Vector4<T>;
 
 	constexpr Matrix() {}
 
@@ -48,7 +48,7 @@ public:
 	}
 
 	constexpr Matrix(std::initializer_list<Vector4<T>> init) {
-		std::copy(data, data + 16, init);
+		std::copy(data, data + 4, (Vector4<T>*)init.begin());
 	}
 
 	template <Size N>

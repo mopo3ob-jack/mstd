@@ -6,11 +6,13 @@ project(
 	HOMEPAGE_URL "https://github.com/mopo3ob-jack/mstd"
 )
 
-include(GNUInstallDirs)
-
 add_library(mstd INTERFACE)
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS TRUE)
 target_include_directories(mstd INTERFACE inc/)
 set_target_properties(mstd PROPERTIES CXX_STANDARD 20)
 
-install(DIRECTORY inc/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+add_executable(main)
+target_sources(main PRIVATE main.cpp)
+set_target_properties(main PROPERTIES CXX_STANDARD 20)
+target_link_libraries(main PRIVATE mstd)

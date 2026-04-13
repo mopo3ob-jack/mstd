@@ -175,12 +175,9 @@ private:
 
 template <typename T, Size R>
 static constexpr Vector<T, R> operator*(T s, const Vector<T, R>& v) {
-	return Vector(s * v.x, s * v.y);
-}
-
-template <typename T, Size R>
-static constexpr Vector<T, R> operator/(T s, const Vector<T, R>& v) {
-	return Vector(s / v.x, s / v.y);
+	Vector<T, R> result;
+	for (Size i = 0; i < R; ++i) result[i] = s * v[i];
+	return result;
 }
 
 template <typename T, Size R>

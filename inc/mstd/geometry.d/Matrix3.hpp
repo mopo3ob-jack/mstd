@@ -32,7 +32,7 @@ public:
 	}
 
 	constexpr Matrix(std::initializer_list<Vector3<T>> init) {
-		std::copy(data, data + 9, init);
+		std::copy(data, data + 3, (Vector3<T>*)init.begin());
 	}
 
 	template <Size N>
