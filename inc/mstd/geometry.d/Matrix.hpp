@@ -31,19 +31,35 @@ public:
 	}
 
 	template <Size N>
-	constexpr Matrix operator*(const Matrix<T, N, C>& m) const {
+	constexpr Matrix<T, N, R> operator*(const Matrix<T, N, C>& m) const {
 		Matrix<T, N, R> result;
 
-		for (Size c = 0; c < C; ++c) {
+		for (Size c = 0; c < N; ++c) {
 			for (Size r = 0; r < R; ++r) {
-				T sum = 0;
+				T sum = 0.0;
 
-				for (Size i = 0; i < N; ++i) {
+				for (Size i = 0; i < C; ++i) {
 					sum += data[i][r] * m.data[c][i];
 				}
 
-				result.data[c][r] = sum;
+				result[c][r] = sum;
 			}
+		}
+
+		return result;
+	}
+
+	constexpr Vector<T, R> operator*(const Vector<T, C>& v) const {
+		Vector<T, R> result;
+
+		for (Size r = 0; r < R; ++r) {
+			T sum = 0.0;
+
+			for (Size i = 0; i < C; ++i) {
+				sum += data[i][r] * v[i];
+			}
+
+			result[r] = sum;
 		}
 
 		return result;
@@ -75,7 +91,6 @@ public:
 		return !std::equal(data, data + C, v.data);
 	}
 
-private:
 	Column data[C];
 };
 
