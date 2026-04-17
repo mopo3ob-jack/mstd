@@ -52,8 +52,8 @@ public:
 	constexpr Vector<T, 2> operator*(Vector2<T> v) const {
 		Vector<T, 2> result;
 
-		result.x = data[0][0] * v.x + data[0][1] * v.y;
-		result.y = data[1][0] * v.x + data[1][1] * v.y;
+		result.x = data[0][0] * v.x + data[1][0] * v.y;
+		result.y = data[0][1] * v.x + data[1][1] * v.y;
 
 		return result;
 	}

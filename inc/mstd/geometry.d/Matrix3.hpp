@@ -57,9 +57,9 @@ public:
 	constexpr Vector3<T> operator*(Vector3<T> v) const {
 		Vector3<T> result;
 
-		result.x = data[0][0] * v.x + data[0][1] * v.y + data[0][2] * v.z;
-		result.y = data[1][0] * v.x + data[1][1] * v.y + data[1][2] * v.z;
-		result.z = data[2][0] * v.x + data[2][1] * v.y + data[2][2] * v.z;
+		result.x = data[0][0] * v.x + data[1][0] * v.y + data[2][0] * v.z;
+		result.y = data[0][1] * v.x + data[1][1] * v.y + data[2][1] * v.z;
+		result.z = data[0][2] * v.x + data[1][2] * v.y + data[2][2] * v.z;
 
 		return result;
 	}
